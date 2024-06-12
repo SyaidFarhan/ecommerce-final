@@ -36,7 +36,8 @@ export default function CartModal() {
                     ? parseInt(
                         (
                           item.productID.price -
-                          item.productID.price * (item.productID.priceDrop / 100)
+                          item.productID.price *
+                            (item.productID.priceDrop / 100)
                         ).toFixed(2)
                       )
                     : item.productID.price,
@@ -147,7 +148,7 @@ export default function CartModal() {
               router.push("/cart");
               setShowCartModal(false);
             }}
-            className="mt-1.5 w-full inline-block bg-pink-600 rounded-xl text-white px-5 py-3 text-xs font-poppins uppercase tracking-wide"
+            className="mt-1.5 w-full inline-block bg-[#A02F58] rounded-xl text-white px-5 py-3 text-xs font-poppins uppercase tracking-wide"
           >
             Go To Cart
           </button>
@@ -158,7 +159,7 @@ export default function CartModal() {
               router.push("/checkout");
               setShowCartModal(false);
             }}
-            className="mt-1.5 w-full inline-block rounded-xl bg-pink-600 text-white px-5 py-3 text-xs font-poppins uppercase tracking-wide disabled:opacity-50"
+            className="mt-1.5 w-full inline-block rounded-xl bg-[#A02F58] text-white px-5 py-3 text-xs font-poppins uppercase tracking-wide disabled:opacity-50"
           >
             Checkout
           </button>

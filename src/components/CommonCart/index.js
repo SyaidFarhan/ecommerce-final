@@ -9,21 +9,20 @@ export default function CommonCart({
   handleDeleteCartItem,
   componentLevelLoader,
 }) {
-
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <section className="h-full pb-5 bg-gray-100">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mt-8 max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="bg-white shadow">
-          
             <div className="px-4 py-6 sm:px-8 sm:py-10">
-              <div className="mb-6">   <AbsoluteComponents></AbsoluteComponents>
-              <hr />
+              <div className="mb-6">
+                {" "}
+                <AbsoluteComponents></AbsoluteComponents>
+                <hr />
               </div>
 
-         
               <div className="flow-root pt-5">
                 {cartItems && cartItems.length ? (
                   <ul className="-my-8 ">
@@ -122,9 +121,9 @@ export default function CommonCart({
                 </div>
                 <div className="mt-5 text-center">
                   <button
-                  onClick={()=>router.push('/checkout')}
+                    onClick={() => router.push("/checkout")}
                     disabled={cartItems && cartItems.length === 0}
-                    className="disabled:opacity-50 group inline-flex w-full items-center justify-center bg-pink-600 rounded-xl  px-6 py-4 text-lg text-white font-medium uppercase tracking-wide"
+                    className="disabled:opacity-50 group inline-flex w-full items-center justify-center bg-[#A02F58] rounded-xl  px-6 py-4 text-lg text-white font-medium uppercase tracking-wide"
                   >
                     Checkout
                   </button>

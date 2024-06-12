@@ -56,8 +56,11 @@ function NavItemss({ isAuthUser, isAdminView, adminNavOptions, router }) {
   return (
     <div className="relative flex items-center justify-center">
       {isAuthUser && isAdminView ? (
-        <button onClick={toggleNavItems} className="flex items-center border hover:bg-pink-100">
-          <FaPlus className="w-6 h-8 flex items-center text-pink-600" />
+        <button
+          onClick={toggleNavItems}
+          className="flex items-center border hover:bg-pink-100"
+        >
+          <FaPlus className="w-6 h-8 flex items-center text-[#A02F58]" />
         </button>
       ) : null}
 
@@ -123,21 +126,22 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200">
-        <div className="max-w-screen-xl items-center flex flex-wrap items-center justify-between mx-auto p-4">
+      <nav className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200 px-28">
+        <div className="max-w-screen-xl items-center flex flex-wrap justify-between mx-auto p-4">
           <div
             onClick={() => router.push("/")}
             className="flex items-center cursor-pointer"
           >
-            <span className="self-center text-4xl font-poppins font-extrabold whitespace-nowrap text-pink-600">
-              Elysian
-            </span>
+            <img
+              src="https://github.com/zulfiasyalwa4/assets/blob/main/Elysian.svg?raw=true"
+              className="h-8"
+            />
           </div>
           <div className="flex md:order-2 gap-2 items-center">
             {!isAdminView && isAuthUser ? (
               <Fragment>
                 <FaShoppingCart
-                  className="text-3xl pt-1 text-pink-600 cursor-pointer"
+                  className="text-3xl pt-1 text-[#A02F58] cursor-pointer"
                   onClick={() => setShowCartModal(true)}
                 />
               </Fragment>
@@ -146,7 +150,7 @@ export default function Navbar() {
               isAdminView ? (
                 <button
                   className={
-                    "mt-1.5 inline-block bg-pink-600 font-bold rounded-2xl px-3 py-2 text-xs font-bold uppercase tracking-wide text-white"
+                    "mt-1.5 inline-block bg-[#A02F58] font-bold rounded-2xl px-3 py-2 text-xs uppercase tracking-wide text-white"
                   }
                   onClick={() => router.push("/")}
                 >
@@ -156,7 +160,7 @@ export default function Navbar() {
                 <button
                   onClick={() => router.push("/admin-view")}
                   className={
-                    " bg-pink-600 font-poppins mt-1.5 inline-block rounded-2xl px-3 py-2 text-xs font-bold uppercase tracking-wide text-white"
+                    " bg-[#A02F58] font-poppins mt-1.5 inline-block rounded-2xl px-3 py-2 text-xs font-bold uppercase tracking-wide text-white"
                   }
                 >
                   Admin View
@@ -167,7 +171,7 @@ export default function Navbar() {
               <button
                 onClick={() => router.push("/login")}
                 className={
-                  "mt-1.5 inline-block bg-pink-600 font-bold rounded-2xl px-5 py-3 text-xs font-bold uppercase tracking-wide text-white"
+                  "mt-1.5 inline-block bg-[#A02F58] font-bold rounded-full px-8 py-2 text-xs uppercase tracking-wide text-white"
                 }
               >
                 Login
@@ -176,7 +180,7 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={toggleDropdown}
-                  className="mt-1.5 inline-block rounded-full bg-pink-600 px-3 py-3 text-xs font-bold uppercase tracking-wide text-white"
+                  className="mt-1.5 inline-block rounded-full bg-[#A02F58] px-3 py-3 text-xs font-bold uppercase tracking-wide text-white"
                 >
                   <FaUser />
                 </button>
@@ -235,7 +239,11 @@ export default function Navbar() {
       <CommonModal
         showModalTitle={false}
         mainContent={
-          <NavItems router={router} isModalView={true} isAdminView={isAdminView} />
+          <NavItems
+            router={router}
+            isModalView={true}
+            isAdminView={isAdminView}
+          />
         }
         show={showNavModal}
         setShow={setShowNavModal}

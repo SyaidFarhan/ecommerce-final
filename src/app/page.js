@@ -26,23 +26,24 @@ export default function Home() {
   console.log(products);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between px-28 py-10">
       <section className="">
         <div className="grid max-w-screen-xl px-4 py-8 mx-suto  lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
           <div className="mr-auto place-self-center lg:col-span-7">
-            <h1 className="max-w-2xl mb-4 text-4xl text-pink-600 font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">
+            <h1 className="max-w-2xl mb-4 text-4xl text-[#A02F58] font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">
               Tempat belanja Mahasiswa
             </h1>
             <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
-              Temukan barang yang anda butuhkan di sini dan dapatkan pengalaman belanja mahasiswa terbaik.
+              Temukan barang yang anda butuhkan di sini dan dapatkan pengalaman
+              belanja mahasiswa terbaik.
             </p>
 
             <button
               type="button"
               onClick={() => router.push("/product/listing/all-products")}
-              className="mt-1.5 inline-block bg-pink-600 rounded-xl  px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+              className="mt-1.5 inline-block bg-[#A02F58] rounded-xl  px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
             >
-             Belanja sekarang
+              Belanja sekarang
             </button>
           </div>
           <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
@@ -54,7 +55,7 @@ export default function Home() {
         </div>
         <div className="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8">
           <div className="text-center">
-            <h2 className="text-xl font-bold text-pink-600 sm:text-3xl">
+            <h2 className="text-xl font-bold text-[#A02F58] sm:text-3xl">
               CATEGORY
             </h2>
           </div>
@@ -69,7 +70,7 @@ export default function Home() {
                   <h3 className="text-lg font-medium text-white">Electronic</h3>
                   <button
                     onClick={() => router.push("/product/listing/kids")}
-                    className="inline-block bg-pink-600 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
+                    className="inline-block bg-[#A02F58] rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
                   </button>
@@ -86,14 +87,14 @@ export default function Home() {
                   <h3 className="text-lg font-medium text-white">Sports</h3>
                   <button
                     onClick={() => router.push("/product/listing/women")}
-                    className="inline-block bg-pink-600 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
+                    className="inline-block bg-[#A02F58] rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
                   </button>
                 </div>
               </div>
             </li>
-            
+
             <li>
               <div className="relative block group">
                 <img
@@ -104,7 +105,7 @@ export default function Home() {
                   <h3 className="text-lg font-medium text-white">Stationery</h3>
                   <button
                     onClick={() => router.push("/product/listing/kids")}
-                    className=" inline-block bg-pink-600 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
+                    className=" inline-block bg-[#A02F58] rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
                   </button>
@@ -121,14 +122,14 @@ export default function Home() {
                   <h3 className="text-lg font-medium text-white">Graduation</h3>
                   <button
                     onClick={() => router.push("/product/listing/women")}
-                    className="inline-block bg-pink-600 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
+                    className="inline-block bg-[#A02F58] rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
                   </button>
                 </div>
               </div>
             </li>
-            
+
             <li>
               <div className="relative block group">
                 <img
@@ -139,7 +140,7 @@ export default function Home() {
                   <h3 className="text-lg font-medium text-white">Merch</h3>
                   <button
                     onClick={() => router.push("/product/listing/kids")}
-                    className="inline-block bg-pink-600 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
+                    className="inline-block bg-[#A02F58] rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
                   </button>
@@ -156,7 +157,7 @@ export default function Home() {
                   <h3 className="text-lg font-medium text-white">Lifestyle</h3>
                   <button
                     onClick={() => router.push("/product/listing/women")}
-                    className="inline-block bg-pink-600 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
+                    className="inline-block bg-[#A02F58] rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
                   </button>
@@ -167,7 +168,7 @@ export default function Home() {
         </div>
         <div className="max-w-screen-xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
-            <div className="grid p-6 bg-pink-600 rounded place-content-center sm:p-8  rounded-l-xl">
+            <div className="grid p-6 bg-[#A02F58] rounded place-content-center sm:p-8  rounded-l-xl">
               <div className="max-w-md mx-auto text-center lg:text-left">
                 <div>
                   <h2 className="text-xl font-bold text-white sm:text-3xl">
@@ -176,7 +177,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => router.push("/product/listing/all-products")}
-                  className="mt-1.5 inline-block bg-white  rounded-xl  px-5 py-3 text-xs uppercase tracking-wide text-pink-600 hover:bg-blue-600 hover:scale-105 hover:text-white font-bold ring-blue-500"
+                  className="mt-1.5 inline-block bg-white  rounded-xl  px-5 py-3 text-xs uppercase tracking-wide text-[#A02F58] hover:bg-[#EA3A7A] hover:scale-105 hover:text-white font-bold ring-[#EA3A7A]"
                 >
                   click
                 </button>
@@ -219,7 +220,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-       
       </section>
     </main>
   );

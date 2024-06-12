@@ -15,7 +15,8 @@ export default function ProductButton({ item }) {
     setComponentLevelLoader,
     componentLevelLoader,
     user,
-    showCartModal, setShowCartModal
+    showCartModal,
+    setShowCartModal,
   } = useContext(GlobalContext);
   const router = useRouter();
 
@@ -56,7 +57,7 @@ export default function ProductButton({ item }) {
         position: toast.POSITION.TOP_RIGHT,
       });
       setComponentLevelLoader({ loading: false, id: "" });
-      setShowCartModal(true)
+      setShowCartModal(true);
     }
 
     console.log(res);
@@ -69,13 +70,13 @@ export default function ProductButton({ item }) {
           setCurrentUpdatedProduct(item);
           router.push("/admin-view/add-product");
         }}
-        className="mt-1.5 flex w-full justify-center bg-pink-600 rounded-lg px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+        className="mt-1.5 flex w-full justify-center bg-[#A02F58] rounded-lg px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
       >
         Update
       </button>
       <button
         onClick={() => handleDeleteProduct(item)}
-        className="mt-1.5 flex w-full justify-center px-5 py-3 text-xs font-medium uppercase tracking-wide text-white  bg-pink-600 rounded-lg"
+        className="mt-1.5 flex w-full justify-center px-5 py-3 text-xs font-medium uppercase tracking-wide text-white  bg-[#A02F58] rounded-lg"
       >
         {componentLevelLoader &&
         componentLevelLoader.loading &&
@@ -94,7 +95,7 @@ export default function ProductButton({ item }) {
     <>
       <button
         onClick={() => handleAddToCart(item)}
-        className="mt-1.5 flex w-full justify-center bg-pink-600 rounded-lg px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+        className="mt-1.5 flex w-full justify-center bg-[#A02F58] rounded-lg px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
       >
         {componentLevelLoader &&
         componentLevelLoader.loading &&

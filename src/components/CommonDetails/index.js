@@ -72,19 +72,21 @@ export default function CommonDetails({ item }) {
                 className="w-20 p-1 border rounded"
                 defaultValue={1}
                 min={1}
-                
               />
             </div>
 
             {/* Buttons */}
             <div className="flex gap-4 mb-4">
-              <button className="flex-grow font-bold text-pink-700 bg-white border-4 border-pink-700 py-1/4 rounded-3xl" onClick={() => handleAddToCart(item)}>
+              <button
+                className="flex-grow font-bold text-pink-700 bg-white border-4 border-pink-700 py-1/4 rounded-3xl"
+                onClick={() => handleAddToCart(item)}
+              >
                 Add to Cart
               </button>
               <button className="flex-grow w-1/4 py-2 font-bold text-white bg-pink-700 rounded-3xl">
                 Buy Now
               </button>
-              <button className="text-pink-600">
+              <button className="text-[#A02F58]">
                 <svg
                   className="w-6 h-6"
                   fill="none"

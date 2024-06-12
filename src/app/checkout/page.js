@@ -170,7 +170,7 @@ export default function Checkout() {
           <div className="mx-auto mt-8 max-w-screen-xl px-4 sm:px-6 lg:px-8 ">
             <div className="bg-white shadow">
               <div className="px-4 py-6 sm:px-8 sm:py-10 flex flex-col gap-5">
-                <h1 className="font-bold text-pink-600 text-lg">
+                <h1 className="font-bold text-[#A02F58] text-lg">
                   Pembayaran Berhasil!
                 </h1>
               </div>
@@ -198,7 +198,9 @@ export default function Checkout() {
     <div>
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
         <div className="px-4 pt-8">
-          <p className="font-bold font-poppins text-3xl text-pink-600">Cart Summary</p>
+          <p className="font-bold font-poppins text-3xl text-[#A02F58]">
+            Cart Summary
+          </p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-5">
             {cartItems && cartItems.length ? (
               cartItems.map((item) => (
@@ -211,7 +213,8 @@ export default function Checkout() {
                     alt="Cart Item"
                     className="m-2 h-24 w-28 rounded-md border object-cover object-center"
                   />
-                  <div className="flex w-full flex-col px-4 py-4">Subtotal
+                  <div className="flex w-full flex-col px-4 py-4">
+                    Subtotal
                     <span className="font-bold">
                       {item && item.productID && item.productID.name}
                     </span>
@@ -237,8 +240,10 @@ export default function Checkout() {
                 <div
                   onClick={() => handleSelectedAddress(item)}
                   key={item._id}
-                  className={`border p-6 bg-pink-600 text-white rounded-lg font font-semibold ${
-                    item._id === selectedAddress ? "border-red-900 rounded-xl"  : ""
+                  className={`border p-6 bg-[#A02F58] text-white rounded-lg font font-semibold ${
+                    item._id === selectedAddress
+                      ? "border-red-900 rounded-xl"
+                      : ""
                   }`}
                 >
                   <p>Name : {item.fullName}</p>
@@ -246,7 +251,7 @@ export default function Checkout() {
                   <p>City : {item.city}</p>
                   <p>Country : {item.country}</p>
                   <p>PostalCode : {item.postalCode}</p>
-                  <button className="mt-5 mr-5 inline-block bg-white border border-pink-600 rounded-2xl  text-pink-700 px-5 py-3 text-xs font-semibold uppercase tracking-wide hover:bg-blue-600 hover:text-white">
+                  <button className="mt-5 mr-5 inline-block bg-white border border-[#A02F58] rounded-2xl  text-pink-700 px-5 py-3 text-xs font-semibold uppercase tracking-wide hover:bg-blue-600 hover:text-white">
                     {item._id === selectedAddress
                       ? "Selected Address"
                       : "Select Address"}
@@ -259,8 +264,10 @@ export default function Checkout() {
           </div>
           <button
             onClick={() => router.push("/account")}
-            className="flex mt-5 mr-5 inline-block bg-pink-600 rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
-          > <FaPlus className="mr-2" />
+            className="flex mt-5 mr-5 inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+          >
+            {" "}
+            <FaPlus className="mr-2" />
             Add new address
           </button>
           <div className="mt-6 border-t border-b py-2">
@@ -299,7 +306,7 @@ export default function Checkout() {
                   Object.keys(checkoutFormData.shippingAddress).length === 0
                 }
                 onClick={handleCheckout}
-                className="disabled:opacity-50 mt-5 mr-5 w-full  inline-block bg-pink-600 rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                className="disabled:opacity-50 mt-5 mr-5 w-full  inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
               >
                 Checkout
               </button>

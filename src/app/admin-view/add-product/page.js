@@ -131,7 +131,7 @@ export default function AdminAddNewProduct() {
       });
 
       setFormData(initialFormData);
-      setCurrentUpdatedProduct(null)
+      setCurrentUpdatedProduct(null);
       setTimeout(() => {
         router.push("/admin-view/all-products");
       }, 1000);
@@ -186,11 +186,15 @@ export default function AdminAddNewProduct() {
           )}
           <button
             onClick={handleAddProduct}
-            className="inline-flex w-full items-center justify-center bg-pink-600 rounded-xl  px-6 py-4 text-lg text-white font-medium uppercase tracking-wide"
+            className="inline-flex w-full items-center justify-center bg-[#A02F58] rounded-xl  px-6 py-4 text-lg text-white font-medium uppercase tracking-wide"
           >
             {componentLevelLoader && componentLevelLoader.loading ? (
               <ComponentLevelLoader
-                text={currentUpdatedProduct !== null ? 'Updating Product' : "Adding Product"}
+                text={
+                  currentUpdatedProduct !== null
+                    ? "Updating Product"
+                    : "Adding Product"
+                }
                 color={"#ffffff"}
                 loading={componentLevelLoader && componentLevelLoader.loading}
               />

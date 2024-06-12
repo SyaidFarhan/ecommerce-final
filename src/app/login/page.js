@@ -100,7 +100,7 @@ export default function Login() {
                 )}
               </div>
               <button
-                className="w-[45vw] px-4 py-2 mt-4 font-medium text-white bg-pink-600 rounded-full hover:bg-pink-700"
+                className="w-[45vw] px-4 py-2 mt-4 font-medium text-white bg-[#A02F58] rounded-full hover:bg-pink-700"
                 disabled={!isValidForm()}
                 onClick={handleLogin}
               >
@@ -108,7 +108,9 @@ export default function Login() {
                   <ComponentLevelLoader
                     text="Logging in..."
                     color="#ffffff"
-                    loading={componentLevelLoader && componentLevelLoader.loading}
+                    loading={
+                      componentLevelLoader && componentLevelLoader.loading
+                    }
                   />
                 ) : (
                   "Login"
@@ -119,7 +121,7 @@ export default function Login() {
                 <a
                   href="#"
                   onClick={() => router.push("/register")}
-                  className="font-medium text-pink-600 hover:text-pink-700"
+                  className="font-medium text-[#A02F58] hover:text-pink-700"
                 >
                   Sign Up
                 </a>

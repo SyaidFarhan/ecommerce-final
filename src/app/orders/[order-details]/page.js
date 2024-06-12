@@ -16,7 +16,7 @@ export default function OrderDetails() {
   } = useContext(GlobalContext);
 
   const params = useParams();
-  const router = useRouter()
+  const router = useRouter();
 
   async function extractOrderDetails() {
     setPageLevelLoader(true);
@@ -164,7 +164,7 @@ export default function OrderDetails() {
           </div>
           <button
             onClick={() => router.push(`/`)}
-            className="mt-5 mr-5  inline-block bg-pink-600 rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+            className="mt-5 mr-5  inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
           >
             Shop Again
           </button>

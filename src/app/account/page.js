@@ -17,7 +17,6 @@ import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { MdContacts } from "react-icons/md";
 
-
 export default function Account() {
   const {
     user,
@@ -33,7 +32,7 @@ export default function Account() {
 
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [currentEditedAddressId, setCurrentEditedAddressId] = useState(null);
-  const router = useRouter()
+  const router = useRouter();
 
   async function extractAllAddresses() {
     setPageLevelLoader(true);
@@ -129,121 +128,125 @@ export default function Account() {
       <div className="mx-auto bg-gray-100 px-4 sm:px-6 lg:px-8">
         <div className="bg-white shadow">
           <div className="p-6 sm:p-12 flex items-center justify-evenly">
-            <div className="flex items-center sm:flex-row sm:justify-between sm:space-x-5">  <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
-            <MdContacts className="w-12 h-12 text-pink-600"/>
-            </div>
-            <div className="flex flex-col flex-1">
-              <h4 className="text-lg font-semibold text-center md:text-left">
-                {user?.name}
-              </h4>
-              <p>{user?.email}</p>
+            <div className="flex items-center sm:flex-row sm:justify-between sm:space-x-5">
+              {" "}
+              <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
+                <MdContacts className="w-12 h-12 text-[#A02F58]" />
+              </div>
+              <div className="flex flex-col flex-1">
+                <h4 className="text-lg font-semibold text-center md:text-left">
+                  {user?.name}
+                </h4>
+                <p>{user?.email}</p>
 
-              <p>{user?.role}</p>
-              <button onClick={()=>router.push('/orders')} className="mt-5  inline-block bg-pink-600 rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide">
-              View Your Orders
-            </button>
-            </div>
-            
-            </div>
-    
-           
-            <div className="bg-pink-100 p-3 px-5 rounded-xl"><div className="mt-6">
-              <h1 className="font-bold text-lg">Your Addresses :</h1>
-              {pageLevelLoader ? (
-                <PulseLoader
-                  color={"#000000"}
-                  loading={pageLevelLoader}
-                  size={15}
-                  data-testid="loader"
-                />
-              ) : (
-                <div className="mt-4 flex flex-col gap-4">
-                  {addresses && addresses.length ? (
-                    addresses.map((item) => (
-                      <div className="border p-6" key={item._id}>
-                        <p>Name : {item.fullName}</p>
-                        <p>Address : {item.address}</p>
-                        <p>City : {item.city}</p>
-                        <p>Country : {item.country}</p>
-                        <p>PostalCode : {item.postalCode}</p>
-                        <button
-                          onClick={() => handleUpdateAddress(item)}
-                          className="mt-5 mr-5 inline-block bg-white border-2 border-pink-700 rounded-xl  text-pink-600 px-5 py-3 text-xs font-medium uppercase tracking-wide"
-                        >
-                          Update
-                        </button>
-                        <button
-                          onClick={() => handleDelete(item._id)}
-                          className="mt-5  inline-block bg-pink-600 rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
-                        >
-                          {componentLevelLoader &&
-                          componentLevelLoader.loading &&
-                          componentLevelLoader.id === item._id ? (
-                            <ComponentLevelLoader
-                              text={"Deleting"}
-                              color={"#ffffff"}
-                              loading={
-                                componentLevelLoader &&
-                                componentLevelLoader.loading
-                              }
-                            />
-                          ) : (
-                            "Delete"
-                          )}
-                        </button>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No address found ! Please add a new address below</p>
-                  )}
-                </div>
-              )}
-            </div>
-            <div className="mt-4">
-              <button
-                onClick={() => setShowAddressForm(!showAddressForm)}
-                className="mt-5  inline-block bg-pink-600 rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
-              >
-                {showAddressForm ? "Hide Address Form" : "Add New Address"}
-              </button>
-            </div>
-            {showAddressForm ? (
-              <div className="flex flex-col mt-5 justify-center pt-4 items-center">
-                <div className="w-full mt-6 mr-0 mb-0 ml-0 space-y-8">
-                  {addNewAddressFormControls.map((controlItem) => (
-                    <InputComponent
-                      type={controlItem.type}
-                      placeholder={controlItem.placeholder}
-                      label={controlItem.label}
-                      value={addressFormData[controlItem.id]}
-                      onChange={(event) =>
-                        setAddressFormData({
-                          ...addressFormData,
-                          [controlItem.id]: event.target.value,
-                        })
-                      }
-                    />
-                  ))}
-                </div>
+                <p>{user?.role}</p>
                 <button
-                  onClick={handleAddOrUpdateAddress}
-                  className="mt-5  inline-block bg-pink-600 rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                  onClick={() => router.push("/orders")}
+                  className="mt-5  inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
                 >
-                  {componentLevelLoader && componentLevelLoader.loading ? (
-                    <ComponentLevelLoader
-                      text={"Saving"}
-                      color={"#ffffff"}
-                      loading={
-                        componentLevelLoader && componentLevelLoader.loading
-                      }
-                    />
-                  ) : (
-                    "Save"
-                  )}
+                  View Your Orders
                 </button>
               </div>
-            ) : null}</div>
-            
+            </div>
+
+            <div className="bg-pink-100 p-3 px-5 rounded-xl">
+              <div className="mt-6">
+                <h1 className="font-bold text-lg">Your Addresses :</h1>
+                {pageLevelLoader ? (
+                  <PulseLoader
+                    color={"#000000"}
+                    loading={pageLevelLoader}
+                    size={15}
+                    data-testid="loader"
+                  />
+                ) : (
+                  <div className="mt-4 flex flex-col gap-4">
+                    {addresses && addresses.length ? (
+                      addresses.map((item) => (
+                        <div className="border p-6" key={item._id}>
+                          <p>Name : {item.fullName}</p>
+                          <p>Address : {item.address}</p>
+                          <p>City : {item.city}</p>
+                          <p>Country : {item.country}</p>
+                          <p>PostalCode : {item.postalCode}</p>
+                          <button
+                            onClick={() => handleUpdateAddress(item)}
+                            className="mt-5 mr-5 inline-block bg-white border-2 border-pink-700 rounded-xl  text-[#A02F58] px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                          >
+                            Update
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item._id)}
+                            className="mt-5  inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                          >
+                            {componentLevelLoader &&
+                            componentLevelLoader.loading &&
+                            componentLevelLoader.id === item._id ? (
+                              <ComponentLevelLoader
+                                text={"Deleting"}
+                                color={"#ffffff"}
+                                loading={
+                                  componentLevelLoader &&
+                                  componentLevelLoader.loading
+                                }
+                              />
+                            ) : (
+                              "Delete"
+                            )}
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No address found ! Please add a new address below</p>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="mt-4">
+                <button
+                  onClick={() => setShowAddressForm(!showAddressForm)}
+                  className="mt-5  inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                >
+                  {showAddressForm ? "Hide Address Form" : "Add New Address"}
+                </button>
+              </div>
+              {showAddressForm ? (
+                <div className="flex flex-col mt-5 justify-center pt-4 items-center">
+                  <div className="w-full mt-6 mr-0 mb-0 ml-0 space-y-8">
+                    {addNewAddressFormControls.map((controlItem) => (
+                      <InputComponent
+                        type={controlItem.type}
+                        placeholder={controlItem.placeholder}
+                        label={controlItem.label}
+                        value={addressFormData[controlItem.id]}
+                        onChange={(event) =>
+                          setAddressFormData({
+                            ...addressFormData,
+                            [controlItem.id]: event.target.value,
+                          })
+                        }
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={handleAddOrUpdateAddress}
+                    className="mt-5  inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                  >
+                    {componentLevelLoader && componentLevelLoader.loading ? (
+                      <ComponentLevelLoader
+                        text={"Saving"}
+                        color={"#ffffff"}
+                        loading={
+                          componentLevelLoader && componentLevelLoader.loading
+                        }
+                      />
+                    ) : (
+                      "Save"
+                    )}
+                  </button>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

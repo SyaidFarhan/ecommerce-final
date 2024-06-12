@@ -2,19 +2,30 @@ import React from "react";
 
 function MyComponent() {
   return (
-    <div className="flex flex-col px-12 pt-5 pb-5 bg-pink-800 max-md:px-5">
+    <div className="flex flex-col px-28 pt-10 pb-5 bg-[#A02F58] max-md:px-5">
       <div className="max-md:pr-5 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-3/12 max-md:ml-0 max-md:w-full">
             <div className="flex flex-col text-sm text-white max-md:mt-10">
               <div className="text-xl font-semibold">Elysian</div>
-              <a href="" className="mt-3.5">Profile</a>
-              <a href="" className="mt-3">Category</a>
-              <a href="" className="mt-2">Catalog</a>
-              <a href="" className="mt-2">Order Status</a>
+              <a href="" className="mt-3.5">
+                Profile
+              </a>
+              <a href="" className="mt-3">
+                Category
+              </a>
+              <a href="" className="mt-2">
+                Catalog
+              </a>
+              <a href="" className="mt-2">
+                Order Status
+              </a>
             </div>
           </div>
-          <a href="" className="flex flex-col w-3/12 ml-5 max-md:ml-0 max-md:w-full">
+          <a
+            href=""
+            className="flex flex-col w-3/12 ml-5 max-md:ml-0 max-md:w-full"
+          >
             <div className="flex flex-col text-sm text-white grow max-md:mt-10">
               <div className="text-xl font-semibold">
                 Category
