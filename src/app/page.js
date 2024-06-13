@@ -43,19 +43,19 @@ export default function Home() {
 
   return (
     <main>
-    <div className="flex min-h-screen flex-col items-center justify-between px-28 py-10">
+    <div className="flex flex-col items-center justify-between min-h-screen py-10 px-28">
       <section className="">
         <CarouselCustomNavigation />
         {/* category */}
         <div className="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-4">
           <div className="text-center">
           </div>
-          <ul className=" flex gap-4 mt-8 ">
+          <ul className="flex gap-4 mt-8 ">
             <li>
               <div className="relative block group">
                 <img
                   src="https://images.unsplash.com/photo-1592659762303-90081d34b277?q=80&w=1973&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full aspect-square rounded-lg"
+                  className="object-cover w-full rounded-lg aspect-square"
                 />
                 <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
                   <h3 className="text-lg font-medium text-white">Electronic</h3>
@@ -72,12 +72,12 @@ export default function Home() {
               <div className="relative block group">
                 <img
                   src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full aspect-square rounded-lg"
+                  className="object-cover w-full rounded-lg aspect-square"
                 />
                 <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
                   <h3 className="text-lg font-medium text-white">Sports</h3>
                   <button
-                    onClick={() => router.push("/product/listing/women")}
+                    onClick={() => router.push("/product/listing/Sports")}
                     className="inline-block bg-[#A02F58]/50 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
@@ -90,12 +90,12 @@ export default function Home() {
               <div className="relative block group">
                 <img
                   src="https://plus.unsplash.com/premium_photo-1664105111034-33e24dc90a78?q=80&w=1887&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full aspect-square rounded-lg"
+                  className="object-cover w-full rounded-lg aspect-square"
                 />
                 <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
                   <h3 className="text-lg font-medium text-white">Stationery</h3>
                   <button
-                    onClick={() => router.push("/product/listing/kids")}
+                    onClick={() => router.push("/product/listing/Stationery")}
                     className=" inline-block bg-[#A02F58]/50 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
@@ -108,7 +108,7 @@ export default function Home() {
               <div className="relative block group">
                 <img
                   src="https://plus.unsplash.com/premium_photo-1714265046086-4da004ff8a8d?q=80&w=2070&auto=auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full aspect-square rounded-lg"
+                  className="object-cover w-full rounded-lg aspect-square"
                 />
                 <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
                   <h3 className="text-lg font-medium text-white">Graduation</h3>
@@ -125,12 +125,12 @@ export default function Home() {
               <div className="relative block group">
                 <img
                   src="https://images.unsplash.com/photo-1619646149277-ef710ae426fd?q=80&w=2070&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full aspect-square rounded-lg"
+                  className="object-cover w-full rounded-lg aspect-square"
                 />
                 <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
                   <h3 className="text-lg font-medium text-white">Merch</h3>
                   <button
-                    onClick={() => router.push("/product/listing/kids")}
+                    onClick={() => router.push("/product/listing/Merch")}
                     className=" inline-block bg-[#A02F58]/50 rounded-lg  px-2 py-1 text-xs font-medium uppercase tracking-wide text-white"
                   >
                     Shop Now
@@ -142,7 +142,7 @@ export default function Home() {
               <div className="relative block group">
                 <img
                   src="https://images.unsplash.com/photo-1501426026826-31c667bdf23d?q=80&w=1936&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full aspect-square rounded-lg"
+                  className="object-cover w-full rounded-lg aspect-square"
                 />
                 <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
                   <h3 className="text-lg font-medium text-white">Lifestyle</h3>
@@ -158,7 +158,7 @@ export default function Home() {
           </ul>
         </div>
         {/* banner */}
-        <div className="grid max-w-screen-xl px-4 py-8 mx-suto  lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+        <div className="grid max-w-screen-xl px-4 py-8 mx-suto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
           <div className="mr-auto place-self-center lg:col-span-7">
             <h1 className="max-w-2xl mb-4 text-4xl text-[#A02F58] font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">
               Tempat belanja Mahasiswa
@@ -219,7 +219,7 @@ export default function Home() {
                             <img
                               src={productItem.imageUrl}
                               alt="Sale Product Item"
-                              className="object-cover w-full rounded aspect-square rounded-lg"
+                              className="object-cover w-full rounded rounded-lg aspect-square"
                             />
                           </div>
                           <div className="mt-3">

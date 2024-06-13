@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import ComponentLevelLoader from "../Loader/componentlevel";
 import { addToCart } from "@/services/cart";
 import Notification from "../Notification";
+import { useRouter } from "next/navigation";
 
 export default function CommonDetails({ item }) {
   const {
@@ -14,6 +15,8 @@ export default function CommonDetails({ item }) {
     user,
     setShowCartModal,
   } = useContext(GlobalContext);
+
+  const router = useRouter();
 
   async function handleAddToCart(getItem) {
     setComponentLevelLoader({ loading: true, id: "" });
@@ -32,6 +35,27 @@ export default function CommonDetails({ item }) {
       });
       setComponentLevelLoader({ loading: false, id: "" });
       setShowCartModal(true);
+    }
+  }
+  async function handleBuyNow(getItem) {
+    setComponentLevelLoader({ loading: true, id: "" });
+
+    const res = await addToCart({ productID: getItem._id, userID: user._id });
+
+    if (res.success) {
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setComponentLevelLoader({ loading: false, id: "" });
+      setShowCartModal(true);
+      router.push("/checkout");
+    } else {
+      toast.error(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setComponentLevelLoader({ loading: false, id: "" });
+      setShowCartModal(true);
+      router.push("/checkout");
     }
   }
 
@@ -83,7 +107,7 @@ export default function CommonDetails({ item }) {
               >
                 Add to Cart
               </button>
-              <button className="flex-grow w-1/4 py-2 font-bold text-white bg-pink-700 rounded-3xl">
+              <button className="flex-grow w-1/4 py-2 font-bold text-white bg-pink-700 rounded-3xl" onClick={() => handleBuyNow(item)}>
                 Buy Now
               </button>
               <button className="text-[#A02F58]">
