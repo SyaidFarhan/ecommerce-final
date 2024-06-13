@@ -25,7 +25,7 @@ function NavItems({ isModalView = false, isAdminView, router }) {
         {isAdminView
           ? adminNavOptions.map((item) => (
               <li
-                className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0"
+                className="block py-2 pl-3 pr-4 text-gray-900 rounded cursor-pointer md:p-0"
                 key={item.id}
                 onClick={() => router.push(item.path)}
               >
@@ -34,7 +34,7 @@ function NavItems({ isModalView = false, isAdminView, router }) {
             ))
           : navOptions.map((item) => (
               <li
-                className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0"
+                className="block py-2 pl-3 pr-4 text-gray-900 rounded cursor-pointer md:p-0"
                 key={item.id}
                 onClick={() => router.push(item.path)}
               >
@@ -126,8 +126,8 @@ export default function Navbar() {
 
   return (
     <>
-     <nav className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200 px-28" role="navigation" aria-label="Main Navigation">
-  <div className="max-w-screen-xl items-center flex flex-wrap justify-between mx-auto p-4">
+     <nav className="fixed top-0 left-0 z-20 w-full bg-white border-b border-gray-200 px-28" role="navigation" aria-label="Main Navigation">
+  <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
     <div onClick={() => router.push("/")} className="flex items-center cursor-pointer">
       <img
         src="https://github.com/zulfiasyalwa4/assets/blob/main/Elysian.svg?raw=true"
@@ -135,11 +135,11 @@ export default function Navbar() {
         alt="Logo"
       />
     </div>
-    <div className="flex md:order-2 gap-2 items-center">
+    <div className="flex items-center gap-2 md:order-2">
       {!isAdminView && isAuthUser ? (
         <Fragment>
           <FaShoppingCart
-            className="text-3xl pt-1 text-[#A02F58] cursor-pointer"
+            className="text-3xl pt-1 mr-3 text-[#A02F58] cursor-pointer"
             onClick={() => setShowCartModal(true)}
           />
         </Fragment>
