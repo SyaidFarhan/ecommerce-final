@@ -33,8 +33,6 @@ export default function Checkout() {
     "pk_test_51POJhLKhGYeN8RudSBmwoj93RofT0XloMY7ArtVcll4ChHRrvKK1bQNgBALGvh3bw8D3uw1sphkOgP3zttJdnX9700PjCwQ0GA";
   const stripePromise = loadStripe(publishableKey);
 
-  console.log(cartItems);
-
   async function getAllAddresses() {
     const res = await fetchAllAddresses(user?._id);
 
@@ -130,7 +128,7 @@ export default function Checkout() {
 
     const createLineItems = cartItems.map((item) => ({
       price_data: {
-        currency: "usd",
+        currency: "idr",
         product_data: {
           images: [item.productID.imageUrl],
           name: item.productID.name,
@@ -152,12 +150,9 @@ export default function Checkout() {
     console.log(error);
   }
 
-  console.log(checkoutFormData);
-
   useEffect(() => {
     if (orderSuccess) {
       setTimeout(() => {
-        // setOrderSuccess(false);
         router.push("/orders");
       }, [2000]);
     }
@@ -166,10 +161,10 @@ export default function Checkout() {
   if (orderSuccess) {
     return (
       <section className="h-screen bg-gray-200">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto mt-8 max-w-screen-xl px-4 sm:px-6 lg:px-8 ">
+        <div className="px-4 mx-auto sm:px-6 lg:px-8">
+          <div className="max-w-screen-xl px-4 mx-auto mt-8 sm:px-6 lg:px-8 ">
             <div className="bg-white shadow">
-              <div className="px-4 py-6 sm:px-8 sm:py-10 flex flex-col gap-5">
+              <div className="flex flex-col gap-5 px-4 py-6 sm:px-8 sm:py-10">
                 <h1 className="font-bold text-[#A02F58] text-lg">
                   Pembayaran Berhasil!
                 </h1>
@@ -183,7 +178,7 @@ export default function Checkout() {
 
   if (isOrderProcessing) {
     return (
-      <div className="w-full min-h-screen flex justify-center items-center">
+      <div className="flex items-center justify-center w-full min-h-screen">
         <PulseLoader
           color={"#000000"}
           loading={isOrderProcessing}
@@ -201,19 +196,19 @@ export default function Checkout() {
           <p className="font-bold font-poppins text-3xl text-[#A02F58]">
             Cart Summary
           </p>
-          <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-5">
+          <div className="px-2 py-4 mt-8 space-y-3 bg-white border rounded-lg sm:px-5">
             {cartItems && cartItems.length ? (
               cartItems.map((item) => (
                 <div
-                  className="flex flex-col rounded-lg bg-white sm:flex-row"
+                  className="flex flex-col bg-white rounded-lg sm:flex-row"
                   key={item._id}
                 >
                   <img
                     src={item && item.productID && item.productID.imageUrl}
                     alt="Cart Item"
-                    className="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                    className="object-cover object-center h-24 m-2 border rounded-md w-28"
                   />
-                  <div className="flex w-full flex-col px-4 py-4">
+                  <div className="flex flex-col w-full px-4 py-4">
                     Subtotal
                     <span className="font-bold">
                       {item && item.productID && item.productID.name}
@@ -229,12 +224,12 @@ export default function Checkout() {
             )}
           </div>
         </div>
-        <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0 my-3">
+        <div className="px-4 pt-8 my-3 mt-10 bg-gray-50 lg:mt-0">
           <p className="text-3xl font-bold text-pink-700">Address details</p>
-          <p className="text-gray-400 font-bold">
+          <p className="font-bold text-gray-400">
             Complete your order by selecting address below
           </p>
-          <div className="w-full mt-6 mr-0 mb-0 ml-0 space-y-6">
+          <div className="w-full mt-6 mb-0 ml-0 mr-0 space-y-6">
             {addresses && addresses.length ? (
               addresses.map((item) => (
                 <div
@@ -270,7 +265,7 @@ export default function Checkout() {
             <FaPlus className="mr-2" />
             Add new address
           </button>
-          <div className="mt-6 border-t border-b py-2">
+          <div className="py-2 mt-6 border-t border-b">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Subtotal</p>
               <p className="text-lg font-bold text-gray-900">
