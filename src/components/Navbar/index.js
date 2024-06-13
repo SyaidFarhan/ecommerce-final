@@ -126,116 +126,117 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200 px-28">
-        <div className="max-w-screen-xl items-center flex flex-wrap justify-between mx-auto p-4">
-          <div
+     <nav className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200 px-28" role="navigation" aria-label="Main Navigation">
+  <div className="max-w-screen-xl items-center flex flex-wrap justify-between mx-auto p-4">
+    <div onClick={() => router.push("/")} className="flex items-center cursor-pointer">
+      <img
+        src="https://github.com/zulfiasyalwa4/assets/blob/main/Elysian.svg?raw=true"
+        className="h-8"
+        alt="Logo"
+      />
+    </div>
+    <div className="flex md:order-2 gap-2 items-center">
+      {!isAdminView && isAuthUser ? (
+        <Fragment>
+          <FaShoppingCart
+            className="text-3xl pt-1 text-[#A02F58] cursor-pointer"
+            onClick={() => setShowCartModal(true)}
+          />
+        </Fragment>
+      ) : null}
+      {user?.role === "admin" ? (
+        isAdminView ? (
+          <button
+            className="mt-1.5 inline-block bg-[#A02F58] font-bold rounded-2xl px-3 py-2 text-xs uppercase tracking-wide text-white"
             onClick={() => router.push("/")}
-            className="flex items-center cursor-pointer"
           >
-            <img
-              src="https://github.com/zulfiasyalwa4/assets/blob/main/Elysian.svg?raw=true"
-              className="h-8"
-            />
-          </div>
-          <div className="flex md:order-2 gap-2 items-center">
-            {!isAdminView && isAuthUser ? (
-              <Fragment>
-                <FaShoppingCart
-                  className="text-3xl pt-1 text-[#A02F58] cursor-pointer"
-                  onClick={() => setShowCartModal(true)}
-                />
-              </Fragment>
-            ) : null}
-            {user?.role === "admin" ? (
-              isAdminView ? (
-                <button
-                  className={
-                    "mt-1.5 inline-block bg-[#A02F58] font-bold rounded-2xl px-3 py-2 text-xs uppercase tracking-wide text-white"
-                  }
-                  onClick={() => router.push("/")}
-                >
-                  Client View
-                </button>
-              ) : (
-                <button
-                  onClick={() => router.push("/admin-view")}
-                  className={
-                    " bg-[#A02F58] font-poppins mt-1.5 inline-block rounded-2xl px-3 py-2 text-xs font-bold uppercase tracking-wide text-white"
-                  }
-                >
-                  Admin View
-                </button>
-              )
-            ) : null}
-            {!isAuthUser ? (
-              <button
-                onClick={() => router.push("/login")}
-                className={
-                  "mt-1.5 inline-block bg-[#A02F58] font-bold rounded-full px-8 py-2 text-xs uppercase tracking-wide text-white"
-                }
+            Client View
+          </button>
+        ) : (
+          <button
+            onClick={() => router.push("/admin-view")}
+            className="mt-1.5 inline-block bg-[#A02F58] font-bold rounded-2xl px-3 py-2 text-xs uppercase tracking-wide text-white"
+          >
+            Admin View
+          </button>
+        )
+      ) : null}
+      {!isAuthUser ? (
+        <>
+          <button
+            onClick={() => router.push("/login")}
+            className="mt-1.5 inline-block bg-white border-4 text-[#A02F58] border-[#A02F58] font-bold rounded-full px-8 py-1 text-xs uppercase tracking-wide "
+          >
+            Login
+          </button>
+          <button
+            onClick={() => router.push("/register")}
+            className="mt-1.5 inline-block bg-[#A02F58] font-bold rounded-full px-8 py-2 text-xs uppercase tracking-wide text-white"
+          >
+            Sign Up
+          </button>
+        </>
+      ) : (
+        <div className="relative">
+          <button
+            onClick={toggleDropdown}
+            className="mt-1.5 inline-block rounded-full bg-[#A02F58] px-3 py-3 text-xs font-bold uppercase tracking-wide text-white"
+          >
+            <FaUser />
+          </button>
+          {isDropdownOpen && (
+            <div className="absolute right-0 z-50 w-48 mt-2 bg-white border border-gray-200 rounded-md shadow-lg">
+              <a
+                href="/account"
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
               >
-                Login
-              </button>
-            ) : (
-              <div className="relative">
-                <button
-                  onClick={toggleDropdown}
-                  className="mt-1.5 inline-block rounded-full bg-[#A02F58] px-3 py-3 text-xs font-bold uppercase tracking-wide text-white"
-                >
-                  <FaUser />
-                </button>
-                {isDropdownOpen && (
-                  <div className="absolute right-0 z-50 w-48 mt-2 bg-white border border-gray-200 rounded-md shadow-lg">
-                    <a
-                      href="/account"
-                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                    >
-                      Profile
-                    </a>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                    >
-                      View
-                    </a>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                      onClick={handleLogout}
-                    >
-                      Log Out
-                    </a>
-                  </div>
-                )}
-              </div>
-            )}
-            <button
-              data-collapse-toggle="navbar-sticky"
-              type="button"
-              className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-              aria-controls="navbar-sticky"
-              aria-expanded="false"
-              onClick={() => setShowNavModal(true)}
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="w-6 h-6"
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
+                Profile
+              </a>
+              <a
+                href="#"
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <NavItems router={router} isAdminView={isAdminView} />
+                View
+              </a>
+              <a
+                href="#"
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={handleLogout}
+              >
+                Log Out
+              </a>
+            </div>
+          )}
         </div>
-      </nav>
+      )}
+      <button
+        data-collapse-toggle="navbar-sticky"
+        type="button"
+        className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        aria-controls="navbar-sticky"
+        aria-expanded="false"
+        onClick={() => setShowNavModal(true)}
+      >
+        <span className="sr-only">Open main menu</span>
+        <svg
+          className="w-6 h-6"
+          aria-hidden="true"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
+    <NavItems router={router} isAdminView={isAdminView} />
+  </div>
+</nav>
+
       <CommonModal
         showModalTitle={false}
         mainContent={

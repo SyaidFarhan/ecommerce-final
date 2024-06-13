@@ -27,22 +27,26 @@ export default function CartModal() {
     if (res.success) {
       const updatedData =
         res.data && res.data.length
-          ? res.data.map((item) => ({
-              ...item,
-              productID: {
-                ...item.productID,
-                price:
-                  item.productID.onSale === "yes"
-                    ? parseInt(
-                        (
-                          item.productID.price -
-                          item.productID.price *
-                            (item.productID.priceDrop / 100)
-                        ).toFixed(2)
-                      )
-                    : item.productID.price,
-              },
-            }))
+          ? res.data.map((item) => {
+              const product = item.productID;
+              if (!product) return item; // Return the item as is if productID is null or undefined
+
+              return {
+                ...item,
+                productID: {
+                  ...product,
+                  price:
+                    product.onSale === "yes"
+                      ? parseInt(
+                          (
+                            product.price -
+                            product.price * (product.priceDrop / 100)
+                          ).toFixed(2)
+                        )
+                      : product.price,
+                },
+              };
+            })
           : [];
       setCartItems(updatedData);
       localStorage.setItem("cartItems", JSON.stringify(updatedData));
@@ -52,7 +56,9 @@ export default function CartModal() {
   }
 
   useEffect(() => {
-    if (user !== null) extractAllCartItems();
+    if (user) {
+      extractAllCartItems();
+    }
   }, [user]);
 
   async function handleDeleteCartItem(getCartItemID) {
