@@ -187,13 +187,7 @@ export const AvailableSizes = [
 
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyDxKepmu7o2nbtQpWwKu5kyraYBIceOYiM",
-  authDomain: "elysian-2024-ecommerce.firebaseapp.com",
-  projectId: "elysian-2024-ecommerce",
-  storageBucket: "elysian-2024-ecommerce.appspot.com",
-  messagingSenderId: "829829498542",
-  appId: "1:829829498542:web:0c022a693af72f94794f3f",
-  measurementId: "G-FWKEGLRGC5",
+ "Your_Api"
 };
 
 export const firebaseStroageURL = "gs://elysian-2024-ecommerce.appspot.com";
