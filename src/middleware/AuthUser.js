@@ -29,7 +29,7 @@ const AuthUser = async (req) => {
     }
 
     // Verify JWT token
-    const extractAuthUserInfo = jwt.verify(token, "default_secret_key");
+    const extractAuthUserInfo = jwt.verify(token, process.env.JWT_SECRET_KEY);
     
     if (extractAuthUserInfo) {
       return {

@@ -28,8 +28,7 @@ export default function Checkout() {
   const router = useRouter();
   const params = useSearchParams();
 
-  const publishableKey =
-    "pk_test_51POJhLKhGYeN8RudSBmwoj93RofT0XloMY7ArtVcll4ChHRrvKK1bQNgBALGvh3bw8D3uw1sphkOgP3zttJdnX9700PjCwQ0GA";
+  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   const stripePromise = loadStripe(publishableKey);
 
   async function getAllAddresses() {

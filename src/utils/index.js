@@ -190,7 +190,7 @@ export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
 }; 
 
-export const firebaseStroageURL = "gs://elysian-2024-ecommerce.appspot.com";
+export const firebaseStroageURL = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET ? `gs://${process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}` : "gs://elysian-2024-ecommerce.appspot.com";
 
 export const addNewAddressFormControls = [
   {

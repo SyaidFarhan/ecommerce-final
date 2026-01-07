@@ -18,12 +18,17 @@ export const addNewProduct = async (formData) => {
     return data;
   } catch (error) {
     console.log(error);
+    return {
+      success: false,
+      data: null,
+      error: error.message,
+    };
   }
 };
 
 export const getAllAdminProducts = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/admin/all-products", {
+    const res = await fetch("/api/admin/all-products", {
       method: "GET",
       cache: "no-store",
     });
@@ -33,6 +38,11 @@ export const getAllAdminProducts = async () => {
     return data;
   } catch (error) {
     console.log(error);
+    return {
+      success: false,
+      data: [],
+      error: error.message,
+    };
   }
 };
 
@@ -53,6 +63,11 @@ export const updateAProduct = async (formData) => {
     return data;
   } catch (e) {
     console.log(e);
+    return {
+      success: false,
+      data: null,
+      error: e.message,
+    };
   }
 };
 
@@ -70,13 +85,18 @@ export const deleteAProduct = async (id) => {
     return data;
   } catch (e) {
     console.log(e);
+    return {
+      success: false,
+      data: null,
+      error: e.message,
+    };
   }
 };
 
 export const productByCategory = async (id) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/api/admin/product-by-category?id=${id}`,
+      `/api/admin/product-by-category?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
@@ -88,13 +108,18 @@ export const productByCategory = async (id) => {
     return data;
   } catch (e) {
     console.log(e);
+    return {
+      success: false,
+      data: [],
+      error: e.message,
+    };
   }
 };
 
 export const productById = async (id) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/api/admin/product-by-id?id=${id}`,
+      `/api/admin/product-by-id?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
@@ -106,5 +131,10 @@ export const productById = async (id) => {
     return data;
   } catch (e) {
     console.log(e);
+    return {
+      success: false,
+      data: null,
+      error: e.message,
+    };
   }
 };
