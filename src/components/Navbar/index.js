@@ -9,7 +9,9 @@ import { usePathname, useRouter } from "next/navigation";
 import CartModal from "../CartModal";
 import { FaPlus, FaShoppingCart, FaHeart, FaUser } from "react-icons/fa";
 
-function NavItems({ isModalView = false, isAdminView, router }) {
+function NavItems({ isModalView = false, isAdminView, router, isAuthUser, user, handleLogout, setShowNavModal }) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
     <div
       className={`items-center justify-between w-full md:flex md:w-auto ${
@@ -27,7 +29,10 @@ function NavItems({ isModalView = false, isAdminView, router }) {
               <li
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded cursor-pointer md:p-0"
                 key={item.id}
-                onClick={() => router.push(item.path)}
+                onClick={() => {
+                  router.push(item.path);
+                  if (isModalView) setShowNavModal(false);
+                }}
               >
                 {item.label}
               </li>
@@ -36,12 +41,82 @@ function NavItems({ isModalView = false, isAdminView, router }) {
               <li
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded cursor-pointer md:p-0"
                 key={item.id}
-                onClick={() => router.push(item.path)}
+                onClick={() => {
+                  router.push(item.path);
+                  if (isModalView) setShowNavModal(false);
+                }}
               >
                 {item.label}
               </li>
             ))}
       </ul>
+
+      {/* Mobile Login/SignUp Buttons */}
+      {isModalView && !isAuthUser && (
+        <div className="flex flex-col gap-2 p-4 mt-4 border-t border-gray-100 md:hidden">
+          <button
+            onClick={() => {
+              router.push("/login");
+              setShowNavModal(false);
+            }}
+            className="w-full bg-white border-2 text-[#A02F58] border-[#A02F58] font-bold rounded-full px-3 py-1.5 text-sm uppercase tracking-wide hover:bg-[#A02F58] hover:text-white transition"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => {
+              router.push("/register");
+              setShowNavModal(false);
+            }}
+            className="w-full bg-[#A02F58] font-bold rounded-full px-3 py-1.5 text-sm uppercase tracking-wide text-white hover:bg-[#8a234a] transition"
+          >
+            Sign Up
+          </button>
+        </div>
+      )}
+
+      {/* Mobile User Dropdown */}
+      {isModalView && isAuthUser && (
+        <div className="flex flex-col p-4 mt-4 border-t border-gray-100 md:hidden">
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-full bg-[#A02F58] font-bold rounded-full px-3 py-1.5 text-sm uppercase tracking-wide text-white hover:bg-[#8a234a] transition flex items-center justify-between"
+          >
+            Account
+            <svg className={`w-4 h-4 transition ${isDropdownOpen ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
+          {isDropdownOpen && (
+            <div className="flex flex-col gap-1 p-2 mt-2 rounded-md bg-gray-50">
+              <a
+                href="/account"
+                onClick={() => setShowNavModal(false)}
+                className="block px-3 py-2 text-sm text-gray-800 transition rounded hover:bg-gray-100"
+              >
+                Profile
+              </a>
+              <a
+                href="/orders"
+                onClick={() => setShowNavModal(false)}
+                className="block px-3 py-2 text-sm text-gray-800 transition rounded hover:bg-gray-100"
+              >
+                Orders
+              </a>
+              <a
+                href="#"
+                className="block px-3 py-2 text-sm text-gray-800 transition rounded cursor-pointer hover:bg-gray-100"
+                onClick={() => {
+                  handleLogout();
+                  setShowNavModal(false);
+                }}
+              >
+                Log Out
+              </a>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -126,20 +201,20 @@ export default function Navbar() {
 
   return (
     <>
-     <nav className="fixed top-0 left-0 z-20 w-full bg-white border-b border-gray-200 px-28" role="navigation" aria-label="Main Navigation">
-  <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-    <div onClick={() => router.push("/")} className="flex items-center cursor-pointer">
+     <nav className="fixed top-0 left-0 z-20 w-full px-3 bg-white border-b border-gray-200 sm:px-4 md:px-6 lg:px-8" role="navigation" aria-label="Main Navigation">
+  <div className="flex flex-wrap items-center justify-between w-full p-1.5 sm:p-2 md:p-3 lg:p-4">
+    <div onClick={() => router.push("/")} className="flex items-center flex-shrink-0 cursor-pointer">
       <img
         src="https://github.com/zulfiasyalwa4/assets/blob/main/Elysian.svg?raw=true"
-        className="h-8"
+        className="h-6 sm:h-7 md:h-8"
         alt="Logo"
       />
     </div>
-    <div className="flex items-center gap-2 md:order-2">
+    <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-3 md:order-2 flex-wrap">
       {!isAdminView && isAuthUser ? (
         <Fragment>
           <FaShoppingCart
-            className="text-3xl pt-1 mr-3 text-[#A02F58] cursor-pointer"
+            className="text-base sm:text-lg md:text-xl pt-0.5 text-[#A02F58] cursor-pointer hover:opacity-80 transition"
             onClick={() => setShowCartModal(true)}
           />
         </Fragment>
@@ -147,60 +222,60 @@ export default function Navbar() {
       {user?.role === "admin" ? (
         isAdminView ? (
           <button
-            className="mt-1.5 inline-block bg-[#A02F58] font-bold rounded-2xl px-3 py-2 text-xs uppercase tracking-wide text-white"
+            className="inline-block bg-[#A02F58] font-bold rounded-2xl px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 md:py-2 text-xs uppercase tracking-wide text-white whitespace-nowrap hover:bg-[#8a234a] transition"
             onClick={() => router.push("/")}
           >
-            Client View
+            Client
           </button>
         ) : (
           <button
             onClick={() => router.push("/admin-view")}
-            className="mt-1.5 inline-block bg-[#A02F58] font-bold rounded-2xl px-3 py-2 text-xs uppercase tracking-wide text-white"
+            className="inline-block bg-[#A02F58] font-bold rounded-2xl px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 md:py-2 text-xs uppercase tracking-wide text-white whitespace-nowrap hover:bg-[#8a234a] transition"
           >
-            Admin View
+            Admin
           </button>
         )
       ) : null}
       {!isAuthUser ? (
-        <>
+        <Fragment>
           <button
             onClick={() => router.push("/login")}
-            className="mt-1.5 inline-block bg-white border-4 text-[#A02F58] border-[#A02F58] font-bold rounded-full px-8 py-1 text-xs uppercase tracking-wide "
+            className="hidden sm:inline-block bg-white border-2 text-[#A02F58] border-[#A02F58] font-bold rounded-full px-2 sm:px-3 md:px-6 py-0.5 sm:py-1 md:py-1.5 text-xs uppercase tracking-wide whitespace-nowrap hover:bg-[#A02F58] hover:text-white transition"
           >
             Login
           </button>
           <button
             onClick={() => router.push("/register")}
-            className="mt-1.5 inline-block bg-[#A02F58] font-bold rounded-full px-8 py-2 text-xs uppercase tracking-wide text-white"
+            className="hidden sm:inline-block bg-[#A02F58] font-bold rounded-full px-2 sm:px-3 md:px-6 py-0.5 sm:py-1 md:py-1.5 text-xs uppercase tracking-wide text-white whitespace-nowrap hover:bg-[#8a234a] transition"
           >
             Sign Up
           </button>
-        </>
+        </Fragment>
       ) : (
         <div className="relative">
           <button
             onClick={toggleDropdown}
-            className="mt-1.5 inline-block rounded-full bg-[#A02F58] px-3 py-3 text-xs font-bold uppercase tracking-wide text-white"
+            className="inline-block rounded-full bg-[#A02F58] px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 md:py-2 text-xs font-bold uppercase tracking-wide text-white hover:bg-[#8a234a] transition"
           >
-            <FaUser />
+            <FaUser className="text-xs sm:text-sm md:text-base" />
           </button>
           {isDropdownOpen && (
-            <div className="absolute right-0 z-50 w-48 mt-2 bg-white border border-gray-200 rounded-md shadow-lg">
+            <div className="absolute right-0 z-50 w-32 mt-2 bg-white border border-gray-200 rounded-md shadow-lg sm:w-40 md:w-48">
               <a
                 href="/account"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                className="block px-3 py-2 text-xs text-gray-800 transition sm:text-sm hover:bg-gray-100"
               >
                 Profile
               </a>
               <a
-                href="#"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                href="/orders"
+                className="block px-3 py-2 text-xs text-gray-800 transition sm:text-sm hover:bg-gray-100"
               >
-                View
+                Orders
               </a>
               <a
                 href="#"
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                className="block px-3 py-2 text-xs text-gray-800 transition cursor-pointer sm:text-sm hover:bg-gray-100"
                 onClick={handleLogout}
               >
                 Log Out
@@ -212,14 +287,14 @@ export default function Navbar() {
       <button
         data-collapse-toggle="navbar-sticky"
         type="button"
-        className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="inline-flex items-center p-1.5 sm:p-2 text-xs sm:text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 transition"
         aria-controls="navbar-sticky"
         aria-expanded="false"
         onClick={() => setShowNavModal(true)}
       >
         <span className="sr-only">Open main menu</span>
         <svg
-          className="w-6 h-6"
+          className="w-5 h-5 sm:w-6 sm:h-6"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -244,6 +319,10 @@ export default function Navbar() {
             router={router}
             isModalView={true}
             isAdminView={isAdminView}
+            isAuthUser={isAuthUser}
+            user={user}
+            handleLogout={handleLogout}
+            setShowNavModal={setShowNavModal}
           />
         }
         show={showNavModal}

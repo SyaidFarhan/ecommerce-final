@@ -3,7 +3,6 @@
 import InputComponent from "@/components/FormElements/InputComponent";
 import SelectComponent from "@/components/FormElements/SelectComponent";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
-import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import { registerNewUser } from "@/services/register";
 import { registrationFormControls } from "@/utils";
@@ -21,7 +20,8 @@ const initialFormData = {
 export default function Register() {
   const [formData, setFormData] = useState(initialFormData);
   const [isRegistered, setIsRegistered] = useState(false);
-  const { pageLevelLoader, setPageLevelLoader, isAuthUser } =
+  const [isLoading, setIsLoading] = useState(false);
+  const { isAuthUser } =
     useContext(GlobalContext);
 
   const router = useRouter();
@@ -43,22 +43,21 @@ export default function Register() {
   console.log(isFormValid());
 
   async function handleRegisterOnSubmit() {
-    setPageLevelLoader(true);
+    setIsLoading(true);
     const data = await registerNewUser(formData);
 
     if (data.success) {
       toast.success(data.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right",
       });
       setIsRegistered(true);
-      setPageLevelLoader(false);
+      setIsLoading(false);
       setFormData(initialFormData);
     } else {
       toast.error(data.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right",
       });
-      setPageLevelLoader(false);
-      setFormData(initialFormData);
+      setIsLoading(false);
     }
 
     console.log(data);
@@ -69,77 +68,92 @@ export default function Register() {
   }, [isAuthUser]);
 
   return (
-    <div className="bg-white relative">
-      <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-8  xl:px-5 lg:flex-row">
-        <div className="flex flex-col justify-center items-center w-full  pl-10 lg:flex-row">
-          <div className="w-full mt-10 mr-0 mb-0 ml-0 relative max-w-2xl lg:mt-0 lg:w-full">
-            <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl relative z-10">
-              <p className="w-full text-4xl font-bold text-center text-[#A02F58]">
-                {isRegistered ? "Registration Successfull !" : "Sign up "}
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white shadow-lg rounded-2xl p-6 sm:p-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center text-[#A02F58] mb-6 sm:mb-8">
+            {isRegistered ? "Registration Successful! 🎉" : "Create Account"}
+          </h1>
+          
+          {isRegistered ? (
+            <div className="space-y-4">
+              <p className="text-center text-gray-600 text-sm sm:text-base">
+                Your account has been created successfully. Please log in to continue.
               </p>
-              {isRegistered ? (
-                <button
-                  className="inline-flex w-full items-center justify-center bg-[#A02F58] rounded-xl  px-6 py-4 text-lg 
-                text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
-                "
-                  onClick={() => router.push("/login")}
-                >
-                  Login
-                </button>
-              ) : (
-                <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
-                  {registrationFormControls.map((controlItem) =>
-                    controlItem.componentType === "input" ? (
-                      <InputComponent
-                        type={controlItem.type}
-                        placeholder={controlItem.placeholder}
-                        label={controlItem.label}
-                        onChange={(event) => {
-                          setFormData({
-                            ...formData,
-                            [controlItem.id]: event.target.value,
-                          });
-                        }}
-                        value={formData[controlItem.id]}
-                      />
-                    ) : controlItem.componentType === "select" ? (
-                      <SelectComponent
-                        options={controlItem.options}
-                        label={controlItem.label}
-                        onChange={(event) => {
-                          setFormData({
-                            ...formData,
-                            [controlItem.id]: event.target.value,
-                          });
-                        }}
-                        value={formData[controlItem.id]}
-                      />
-                    ) : null
-                  )}
-                  <button
-                    className=" disabled:opacity-50 inline-flex w-full items-center justify-center bg-pink-700 rounded-xl px-6 py-4 text-lg 
-                   text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
-                   "
-                    disabled={!isFormValid()}
-                    onClick={handleRegisterOnSubmit}
-                  >
-                    {pageLevelLoader ? (
-                      <ComponentLevelLoader
-                        text={"Registering"}
-                        color={"#ffffff"}
-                        loading={pageLevelLoader}
-                      />
-                    ) : (
-                      "Register"
-                    )}
-                  </button>
-                </div>
-              )}
+              <button
+                className="w-full px-4 py-3 font-semibold text-white bg-[#A02F58] rounded-full hover:bg-[#8a234a] transition duration-200"
+                onClick={() => router.push("/login")}
+              >
+                Go to Login
+              </button>
             </div>
-          </div>
+          ) : (
+            <form className="space-y-4 sm:space-y-5" onSubmit={(e) => {
+              e.preventDefault();
+              handleRegisterOnSubmit();
+            }}>
+              {registrationFormControls.map((controlItem) =>
+                controlItem.componentType === "input" ? (
+                  <InputComponent
+                    key={controlItem.id}
+                    type={controlItem.type}
+                    placeholder={controlItem.placeholder}
+                    label={controlItem.label}
+                    onChange={(event) => {
+                      setFormData({
+                        ...formData,
+                        [controlItem.id]: event.target.value,
+                      });
+                    }}
+                    value={formData[controlItem.id]}
+                  />
+                ) : controlItem.componentType === "select" ? (
+                  <SelectComponent
+                    key={controlItem.id}
+                    options={controlItem.options}
+                    label={controlItem.label}
+                    onChange={(event) => {
+                      setFormData({
+                        ...formData,
+                        [controlItem.id]: event.target.value,
+                      });
+                    }}
+                    value={formData[controlItem.id]}
+                  />
+                ) : null
+              )}
+              
+              <button
+                type="submit"
+                className="w-full px-4 py-3 mt-6 font-semibold text-white bg-[#A02F58] rounded-full hover:bg-[#8a234a] disabled:opacity-50 disabled:cursor-not-allowed transition duration-200"
+                disabled={!isFormValid() || isLoading}
+              >
+                {isLoading ? (
+                  <ComponentLevelLoader
+                    text="Creating Account..."
+                    color="#ffffff"
+                    loading={isLoading}
+                  />
+                ) : (
+                  "Register"
+                )}
+              </button>
+            </form>
+          )}
+          
+          {!isRegistered && (
+            <p className="pt-4 text-center text-gray-600 text-sm sm:text-base">
+              Already have an account?{" "}
+              <button
+                onClick={() => router.push("/login")}
+                className="font-semibold text-[#A02F58] hover:text-[#8a234a] transition"
+              >
+                Login
+              </button>
+            </p>
+          )}
         </div>
       </div>
-      <Notification />
     </div>
   );
 }

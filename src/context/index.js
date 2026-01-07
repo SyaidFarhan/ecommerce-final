@@ -3,7 +3,7 @@
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
-import MyComponent from "@/components/Footer";
+import Footer from "@/components/Footer";
 
 export const GlobalContext = createContext(null);
 
@@ -126,7 +126,7 @@ export default function GlobalState({ children }) {
       }}
     >
       {children}
-      <MyComponent />
+      <Footer />
     </GlobalContext.Provider>
   );
 }

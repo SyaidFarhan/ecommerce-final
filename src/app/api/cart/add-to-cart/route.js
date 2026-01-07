@@ -2,7 +2,7 @@ import connectToDB from "@/database";
 import AuthUser from "@/middleware/AuthUser";
 import Cart from "@/models/cart";
 import Joi from "joi";
-import { NextResponse } from "next/server";
+import ApiResponse from "@/utils/apiResponse";
 
 const AddToCart = Joi.object({
   userID: Joi.string().required(),
@@ -14,65 +14,80 @@ export const dynamic = "force-dynamic";
 export async function POST(req) {
   try {
     await connectToDB();
-    const isAuthUser = await AuthUser(req);
+    const authResult = await AuthUser(req);
 
-    if (isAuthUser) {
-      const data = await req.json();
-      const {productID , userID} = data;
-
-      const { error } = AddToCart.validate({ userID, productID });
-
-      if (error) {
-        return NextResponse.json({
-          success: false,
-          message: error.details[0].message,
-        });
-      }
-
-      console.log(productID, userID);
-
-      const isCurrentCartItemAlreadyExists = await Cart.find({
-        productID: productID,
-        userID: userID,
-      });
-
-      console.log(isCurrentCartItemAlreadyExists);
+    // Check authentication
+    if (!authResult.success) {
+      const { error, message } = authResult;
       
-
-      if (isCurrentCartItemAlreadyExists?.length > 0) {
-        return NextResponse.json({
-          success: false,
-          message:
-            "Product is already added in cart! Please add different product",
-        });
+      if (error === "TOKEN_EXPIRED") {
+        return ApiResponse.tokenExpired(message);
+      } else if (error === "MISSING_TOKEN" || error === "INVALID_TOKEN") {
+        return ApiResponse.unauthorized(message);
       }
-
-      const saveProductToCart = await Cart.create(data);
-
-      console.log(saveProductToCart);
-
-      if (saveProductToCart) {
-        return NextResponse.json({
-          success: true,
-          message: "Product is added to cart !",
-        });
-      } else {
-        return NextResponse.json({
-          success: false,
-          message: "failed to add the product to cart ! Please try again.",
-        });
-      }
-    } else {
-      return NextResponse.json({
-        success: false,
-        message: "You are not authenticated",
-      });
+      
+      return ApiResponse.unauthorized(message);
     }
-  } catch (e) {
-    console.log(e);
-    return NextResponse.json({
-      success: false,
-      message: "Something went wrong ! Please try again later",
+
+    const data = await req.json();
+    const { productID, userID } = data;
+
+    // Validate input
+    const { error } = AddToCart.validate({ userID, productID });
+
+    if (error) {
+      return ApiResponse.validationError(error.details[0].message);
+    }
+
+    console.log("📦 Adding to cart - Product:", productID, "User:", userID);
+
+    // Check if product already in cart
+    const isCurrentCartItemAlreadyExists = await Cart.find({
+      productID: productID,
+      userID: userID,
     });
+
+    if (isCurrentCartItemAlreadyExists?.length > 0) {
+      return ApiResponse.conflict(
+        "This product is already in your cart. Please increase the quantity instead."
+      );
+    }
+
+    // Add to cart
+    const saveProductToCart = await Cart.create(data);
+
+    if (saveProductToCart) {
+      console.log("✅ Product added to cart successfully");
+      return ApiResponse.success(
+        saveProductToCart,
+        "Product added to cart successfully!",
+        201
+      );
+    } else {
+      return ApiResponse.error(
+        "Failed to add product to cart. Please try again.",
+        400,
+        "ADD_TO_CART_FAILED"
+      );
+    }
+  } catch (error) {
+    console.error("❌ Error adding to cart:", error.message);
+    
+    // Handle specific error types
+    if (error.name === "ValidationError") {
+      return ApiResponse.validationError(
+        "Invalid data provided. Please check your input."
+      );
+    }
+    
+    if (error.name === "CastError") {
+      return ApiResponse.validationError(
+        "Invalid ID format provided."
+      );
+    }
+
+    return ApiResponse.serverError(
+      "Something went wrong while adding to cart. Please try again later."
+    );
   }
 }

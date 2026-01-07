@@ -4,7 +4,6 @@ import InputComponent from "@/components/FormElements/InputComponent";
 import SelectComponent from "@/components/FormElements/SelectComponent";
 import TileComponent from "@/components/FormElements/TileComponent";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
-import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import { addNewProduct, updateAProduct } from "@/services/product";
 import {
@@ -127,7 +126,7 @@ export default function AdminAddNewProduct() {
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
       toast.success(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right",
       });
 
       setFormData(initialFormData);
@@ -137,7 +136,7 @@ export default function AdminAddNewProduct() {
       }, 1000);
     } else {
       toast.error(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right",
       });
       setComponentLevelLoader({ loading: false, id: "" });
       setFormData(initialFormData);
@@ -206,7 +205,6 @@ export default function AdminAddNewProduct() {
           </button>
         </div>
       </div>
-      <Notification />
     </div>
   );
 }

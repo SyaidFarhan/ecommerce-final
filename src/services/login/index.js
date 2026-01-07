@@ -10,8 +10,20 @@ export const login = async (formData) => {
 
     const data = await response.json();
 
-    return data;
+    // Handle network or server errors
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data?.message || "Login failed. Please try again.",
+      };
+    }
+
+    return data || { success: false, message: "No response from server" };
   } catch (error) {
-    console.log(error);
+    console.error("Login error:", error);
+    return {
+      success: false,
+      message: "Network error. Please check your connection and try again.",
+    };
   }
 };

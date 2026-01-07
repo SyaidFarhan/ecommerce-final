@@ -20,27 +20,36 @@ export async function POST(req) {
   const { error } = schema.validate({ email, password });
 
   if (error) {
-    return NextResponse.json({
-      success: false,
-      message: error.details[0].message,
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.details[0].message,
+      },
+      { status: 400 }
+    );
   }
 
   try {
     const checkUser = await User.findOne({ email });
     if (!checkUser) {
-      return NextResponse.json({
-        success: false,
-        message: "Account not found with this email",
-      });
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Account not found with this email",
+        },
+        { status: 401 }
+      );
     }
 
     const checkPassword = await compare(password, checkUser.password);
     if (!checkPassword) {
-      return NextResponse.json({
-        success: false,
-        message: "Incorrect password. Please try again !",
-      });
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Incorrect password. Please try again !",
+        },
+        { status: 401 }
+      );
     }
 
     const token = jwt.sign(
@@ -63,17 +72,23 @@ export async function POST(req) {
       },
     };
 
-    return NextResponse.json({
-      success: true,
-      message: "Login successfull!",
-      finalData,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Login successful!",
+        finalData,
+      },
+      { status: 200 }
+    );
   } catch (e) {
-    console.log("Error while logging In. Please try again");
+    console.log("Error while logging In. Please try again", e);
 
-    return NextResponse.json({
-      success: false,
-      message: "Something went wrong ! Please try again later",
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Something went wrong ! Please try again later",
+      },
+      { status: 500 }
+    );
   }
 }

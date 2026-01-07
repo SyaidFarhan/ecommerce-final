@@ -1,6 +1,5 @@
 "use client";
 
-import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import { getAllOrdersForUser } from "@/services/order";
 import { useRouter } from "next/navigation";
@@ -28,12 +27,12 @@ export default function Orders() {
 
       setAllOrdersForUser(res.data);
       toast.success(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right",
       });
     } else {
       setPageLevelLoader(false);
       toast.error(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right",
       });
     }
   }
@@ -121,7 +120,6 @@ export default function Orders() {
           </div>
         </div>
       </div>
-      <Notification />
     </section>
   );
 }

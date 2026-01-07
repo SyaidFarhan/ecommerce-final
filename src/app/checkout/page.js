@@ -1,6 +1,5 @@
 "use client";
 
-import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import { fetchAllAddresses } from "@/services/address";
 import { createNewOrder } from "@/services/order";
@@ -83,13 +82,13 @@ export default function Checkout() {
           setIsOrderProcessing(false);
           setOrderSuccess(true);
           toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
+            position: "top-right",
           });
         } else {
           setIsOrderProcessing(false);
           setOrderSuccess(false);
           toast.error(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
+            position: "top-right",
           });
         }
       }
@@ -160,12 +159,12 @@ export default function Checkout() {
 
   if (orderSuccess) {
     return (
-      <section className="h-screen bg-gray-200">
+      <section className="min-h-screen bg-gray-200">
         <div className="px-4 mx-auto sm:px-6 lg:px-8">
-          <div className="max-w-screen-xl px-4 mx-auto mt-8 sm:px-6 lg:px-8 ">
+          <div className="max-w-screen-xl px-0 mx-auto mt-6 sm:mt-8">
             <div className="bg-white shadow">
-              <div className="flex flex-col gap-5 px-4 py-6 sm:px-8 sm:py-10">
-                <h1 className="font-bold text-[#A02F58] text-lg">
+              <div className="flex flex-col gap-5 px-4 py-6 sm:px-6 sm:py-8">
+                <h1 className="font-bold text-[#A02F58] text-base sm:text-lg lg:text-xl">
                   Pembayaran Berhasil!
                 </h1>
               </div>
@@ -191,62 +190,64 @@ export default function Checkout() {
 
   return (
     <div>
-      <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
-        <div className="px-4 pt-8">
-          <p className="font-bold font-poppins text-3xl text-[#A02F58]">
+      <div className="grid grid-cols-1 gap-6 py-4 sm:px-6 lg:grid-cols-2 lg:px-10 xl:px-20 sm:py-6 lg:py-8">
+        <div className="px-2 pt-4 sm:px-4 sm:pt-8">
+          <p className="font-bold font-poppins text-2xl sm:text-3xl text-[#A02F58]">
             Cart Summary
           </p>
-          <div className="px-2 py-4 mt-8 space-y-3 bg-white border rounded-lg sm:px-5">
+          <div className="px-2 py-4 mt-6 space-y-2 bg-white border rounded-lg sm:px-5 sm:mt-8 sm:space-y-3">
             {cartItems && cartItems.length ? (
               cartItems.map((item) => (
                 <div
-                  className="flex flex-col bg-white rounded-lg sm:flex-row"
+                  className="flex flex-col gap-2 bg-white rounded-lg sm:flex-row sm:gap-3"
                   key={item._id}
                 >
                   <img
                     src={item && item.productID && item.productID.imageUrl}
                     alt="Cart Item"
-                    className="object-cover object-center h-24 m-2 border rounded-md w-28"
+                    className="object-cover object-center w-20 h-20 m-2 border rounded-md sm:h-24 sm:w-28 sm:m-0"
                   />
-                  <div className="flex flex-col w-full px-4 py-4">
-                    Subtotal
-                    <span className="font-bold">
+                  <div className="flex flex-col w-full px-2 py-2 sm:px-4 sm:py-4">
+                    <span className="text-xs font-medium text-gray-600 sm:text-sm">
+                      Subtotal
+                    </span>
+                    <span className="text-sm font-bold sm:text-base">
                       {item && item.productID && item.productID.name}
                     </span>
-                    <span className="font-semibold">
-                      {item && item.productID && item.productID.price}
+                    <span className="text-sm font-semibold sm:text-base">
+                      Rp {item && item.productID && item.productID.price}
                     </span>
                   </div>
                 </div>
               ))
             ) : (
-              <div>Your cart is empty</div>
+              <div className="text-sm sm:text-base">Your cart is empty</div>
             )}
           </div>
         </div>
-        <div className="px-4 pt-8 my-3 mt-10 bg-gray-50 lg:mt-0">
-          <p className="text-3xl font-bold text-pink-700">Address details</p>
-          <p className="font-bold text-gray-400">
+        <div className="px-2 pt-4 sm:px-4 sm:pt-8 bg-gray-50 lg:mt-0">
+          <p className="text-2xl font-bold text-pink-700 sm:text-3xl">Address details</p>
+          <p className="text-xs font-bold text-gray-400 sm:text-sm">
             Complete your order by selecting address below
           </p>
-          <div className="w-full mt-6 mb-0 ml-0 mr-0 space-y-6">
+          <div className="w-full mt-4 mb-0 ml-0 mr-0 space-y-3 sm:mt-6 sm:space-y-4">
             {addresses && addresses.length ? (
               addresses.map((item) => (
                 <div
                   onClick={() => handleSelectedAddress(item)}
                   key={item._id}
-                  className={`border p-6 bg-[#A02F58] text-white rounded-lg font font-semibold ${
+                  className={`border p-3 sm:p-6 bg-[#A02F58] text-white rounded-lg font-semibold text-sm sm:text-base ${
                     item._id === selectedAddress
-                      ? "border-red-900 rounded-xl"
+                      ? "border-red-900 rounded-xl border-2"
                       : ""
                   }`}
                 >
-                  <p>Name : {item.fullName}</p>
-                  <p>Address : {item.address}</p>
-                  <p>City : {item.city}</p>
-                  <p>Country : {item.country}</p>
-                  <p>PostalCode : {item.postalCode}</p>
-                  <button className="mt-5 mr-5 inline-block bg-white border border-[#A02F58] rounded-2xl  text-pink-700 px-5 py-3 text-xs font-semibold uppercase tracking-wide hover:bg-blue-600 hover:text-white">
+                  <p className="text-xs sm:text-sm">Name : {item.fullName}</p>
+                  <p className="text-xs sm:text-sm">Address : {item.address}</p>
+                  <p className="text-xs sm:text-sm">City : {item.city}</p>
+                  <p className="text-xs sm:text-sm">Country : {item.country}</p>
+                  <p className="text-xs sm:text-sm">PostalCode : {item.postalCode}</p>
+                  <button className="mt-3 sm:mt-5 mr-3 sm:mr-5 inline-block bg-white border border-[#A02F58] rounded-2xl text-pink-700 px-3 sm:px-5 py-2 sm:py-3 text-xs font-semibold uppercase tracking-wide hover:bg-blue-600 hover:text-white transition">
                     {item._id === selectedAddress
                       ? "Selected Address"
                       : "Select Address"}
@@ -254,21 +255,21 @@ export default function Checkout() {
                 </div>
               ))
             ) : (
-              <p>No addresses added</p>
+              <p className="text-xs sm:text-sm">No addresses added</p>
             )}
           </div>
           <button
             onClick={() => router.push("/account")}
-            className="flex mt-5 mr-5 inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+            className="flex items-center gap-2 mt-4 sm:mt-5 mr-3 sm:mr-5 bg-[#A02F58] rounded-xl text-white px-3 sm:px-5 py-2 sm:py-3 text-xs font-medium uppercase tracking-wide"
           >
             {" "}
-            <FaPlus className="mr-2" />
+            <FaPlus className="w-3 h-3 sm:w-4 sm:h-4" />
             Add new address
           </button>
-          <div className="py-2 mt-6 border-t border-b">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-gray-900">Subtotal</p>
-              <p className="text-lg font-bold text-gray-900">
+          <div className="py-2 mt-4 border-t border-b sm:py-3 sm:mt-6">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <p className="text-xs font-medium text-gray-900 sm:text-sm">Subtotal</p>
+              <p className="text-sm font-bold text-gray-900 sm:text-lg">
                 Rp
                 {cartItems && cartItems.length
                   ? cartItems.reduce(
@@ -278,13 +279,13 @@ export default function Checkout() {
                   : "0"}
               </p>
             </div>
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-gray-900">Shipping</p>
-              <p className="text-lg font-bold text-gray-900">Free</p>
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <p className="text-xs font-medium text-gray-900 sm:text-sm">Shipping</p>
+              <p className="text-sm font-bold text-gray-900 sm:text-lg">Free</p>
             </div>
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-gray-900">Total</p>
-              <p className="text-lg font-bold text-gray-900">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-xs font-medium text-gray-900 sm:text-sm">Total</p>
+              <p className="text-sm font-bold text-gray-900 sm:text-lg">
                 Rp
                 {cartItems && cartItems.length
                   ? cartItems.reduce(
@@ -294,14 +295,14 @@ export default function Checkout() {
                   : "0"}
               </p>
             </div>
-            <div className="pb-10">
+            <div className="pb-4 sm:pb-10">
               <button
                 disabled={
                   (cartItems && cartItems.length === 0) ||
                   Object.keys(checkoutFormData.shippingAddress).length === 0
                 }
                 onClick={handleCheckout}
-                className="disabled:opacity-50 mt-5 mr-5 w-full  inline-block bg-[#A02F58] rounded-xl  text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                className="disabled:opacity-50 mt-4 sm:mt-5 mr-3 sm:mr-5 w-full inline-block bg-[#A02F58] rounded-xl text-white px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm font-medium uppercase tracking-wide"
               >
                 Checkout
               </button>
@@ -309,7 +310,6 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-      <Notification />
     </div>
   );
 }

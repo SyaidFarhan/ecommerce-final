@@ -10,8 +10,20 @@ export const registerNewUser = async (formData) => {
 
     const finalData = await response.json();
 
-    return finalData;
-  } catch (e) {
-    console.log("error", e);
+    // Handle network or server errors
+    if (!response.ok) {
+      return {
+        success: false,
+        message: finalData?.message || "Registration failed. Please try again.",
+      };
+    }
+
+    return finalData || { success: false, message: "No response from server" };
+  } catch (error) {
+    console.error("Registration error:", error);
+    return {
+      success: false,
+      message: "Network error. Please check your connection and try again.",
+    };
   }
 };

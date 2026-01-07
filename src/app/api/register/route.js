@@ -23,10 +23,13 @@ export async function POST(req) {
 
   if (error) {
     console.log(error);
-    return NextResponse.json({
-      success: false,
-      message: error.details[0].message,
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.details[0].message,
+      },
+      { status: 400 }
+    );
   }
 
   try {
@@ -35,10 +38,13 @@ export async function POST(req) {
     const isUserAlreadyExists = await User.findOne({ email });
 
     if (isUserAlreadyExists) {
-      return NextResponse.json({
-        success: false,
-        message: "User is already exists. Please try with different email.",
-      });
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User is already exists. Please try with different email.",
+        },
+        { status: 409 }
+      );
     } else {
       const hashPassword = await hash(password, 12);
 
@@ -50,18 +56,24 @@ export async function POST(req) {
       });
 
       if (newlyCreatedUser) {
-        return NextResponse.json({
-          success: true,
-          message: "Account created successfully.",
-        });
+        return NextResponse.json(
+          {
+            success: true,
+            message: "Account created successfully.",
+          },
+          { status: 201 }
+        );
       }
     }
   } catch (error) {
-    console.log("Error while new user registration. Please try again");
+    console.log("Error while new user registration. Please try again", error);
 
-    return NextResponse.json({
-      success: false,
-      message: "Something went wrong ! Please try again later",
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Something went wrong ! Please try again later",
+      },
+      { status: 500 }
+    );
   }
 }
