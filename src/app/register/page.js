@@ -21,6 +21,7 @@ export default function Register() {
   const [formData, setFormData] = useState(initialFormData);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState({ type: "", text: "" });
   const { isAuthUser } =
     useContext(GlobalContext);
 
@@ -44,23 +45,36 @@ export default function Register() {
 
   async function handleRegisterOnSubmit() {
     setIsLoading(true);
-    const data = await registerNewUser(formData);
+    setStatusMessage({ type: "", text: "" });
+    try {
+      const data = await registerNewUser(formData);
 
-    if (data.success) {
-      toast.success(data.message, {
-        position: "top-right",
+      if (data.success) {
+        setStatusMessage({
+          type: "success",
+          text: "Account created! You can now login.",
+        });
+        toast.success("Account created!");
+        setIsRegistered(true);
+        setFormData(initialFormData);
+      } else {
+        setStatusMessage({
+          type: "error",
+          text: data.message || "Registration failed. Please try again.",
+        });
+        toast.error(data.message || "Registration failed");
+      }
+
+      console.log(data);
+    } catch (error) {
+      setStatusMessage({
+        type: "error",
+        text: "Something went wrong. Please try again.",
       });
-      setIsRegistered(true);
-      setIsLoading(false);
-      setFormData(initialFormData);
-    } else {
-      toast.error(data.message, {
-        position: "top-right",
-      });
+      toast.error("Something went wrong");
+    } finally {
       setIsLoading(false);
     }
-
-    console.log(data);
   }
 
   useEffect(() => {
@@ -88,10 +102,22 @@ export default function Register() {
               </button>
             </div>
           ) : (
-            <form className="space-y-4 sm:space-y-5" onSubmit={(e) => {
-              e.preventDefault();
-              handleRegisterOnSubmit();
-            }}>
+            <>
+              {statusMessage.text && (
+                <div
+                  className={`mb-4 p-4 rounded-lg font-semibold text-center ${
+                    statusMessage.type === "success"
+                      ? "bg-green-100 text-green-800 border border-green-300"
+                      : "bg-red-100 text-red-800 border border-red-300"
+                  }`}
+                >
+                  {statusMessage.text}
+                </div>
+              )}
+              <form className="space-y-4 sm:space-y-5" onSubmit={(e) => {
+                e.preventDefault();
+                handleRegisterOnSubmit();
+              }}>
               {registrationFormControls.map((controlItem) =>
                 controlItem.componentType === "input" ? (
                   <InputComponent
@@ -139,6 +165,7 @@ export default function Register() {
                 )}
               </button>
             </form>
+            </>
           )}
           
           {!isRegistered && (

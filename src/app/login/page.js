@@ -17,6 +17,7 @@ const initialFormdata = {
 
 export default function Login() {
   const [formData, setFormData] = useState(initialFormdata);
+  const [statusMessage, setStatusMessage] = useState({ type: "", text: "" });
   const {
     isAuthUser,
     setIsAuthUser,
@@ -42,26 +43,40 @@ export default function Login() {
 
   async function handleLogin() {
     setComponentLevelLoader({ loading: true, id: "" });
-    const res = await login(formData);
+    setStatusMessage({ type: "", text: "" });
+    try {
+      const res = await login(formData);
 
-    console.log(res);
+      console.log(res);
 
-    if (res.success) {
-      toast.success(res.message, {
-        position: "top-right",
+      if (res.success) {
+        setStatusMessage({
+          type: "success",
+          text: "Login successful! Redirecting...",
+        });
+        toast.success("Login successful!");
+        setIsAuthUser(true);
+        setUser(res?.finalData?.user);
+        setFormData(initialFormdata);
+        Cookies.set("token", res?.finalData?.token);
+        localStorage.setItem("user", JSON.stringify(res?.finalData?.user));
+        setTimeout(() => router.push("/"), 500);
+      } else {
+        setStatusMessage({
+          type: "error",
+          text: res.message || "Wrong email or password. Try again.",
+        });
+        toast.error(res.message || "Wrong email or password");
+        setIsAuthUser(false);
+      }
+    } catch (error) {
+      setStatusMessage({
+        type: "error",
+        text: "Something went wrong. Please try again.",
       });
-      setIsAuthUser(true);
-      setUser(res?.finalData?.user);
-      setFormData(initialFormdata);
-      Cookies.set("token", res?.finalData?.token);
-      localStorage.setItem("user", JSON.stringify(res?.finalData?.user));
-      setComponentLevelLoader({ loading: false, id: "" });
-      setTimeout(() => router.push("/"), 500);
-    } else {
-      toast.error(res.message, {
-        position: "top-right",
-      });
+      toast.error("Something went wrong");
       setIsAuthUser(false);
+    } finally {
       setComponentLevelLoader({ loading: false, id: "" });
     }
   }
@@ -79,6 +94,18 @@ export default function Login() {
           <h1 className="text-2xl sm:text-3xl font-bold text-center text-[#A02F58] mb-6 sm:mb-8">
             Login
           </h1>
+          
+          {statusMessage.text && (
+            <div
+              className={`mb-4 p-4 rounded-lg font-semibold text-center ${
+                statusMessage.type === "success"
+                  ? "bg-green-100 text-green-800 border border-green-300"
+                  : "bg-red-100 text-red-800 border border-red-300"
+              }`}
+            >
+              {statusMessage.text}
+            </div>
+          )}
           
           <form className="mb-6 space-y-4 sm:space-y-5" onSubmit={(e) => {
             e.preventDefault();
