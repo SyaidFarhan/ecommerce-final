@@ -6,12 +6,12 @@ import { createNewOrder } from "@/services/order";
 import { callStripeSession } from "@/services/stripe";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, Suspense } from "react";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { FaPlus } from "react-icons/fa";
 
-export default function Checkout() {
+function CheckoutContent() {
   const {
     cartItems,
     user,
@@ -310,5 +310,13 @@ export default function Checkout() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Checkout() {
+  return (
+    <Suspense fallback={<div className="w-full min-h-screen flex justify-center items-center"><PulseLoader color="#A02F58" size={20} /></div>}>
+      <CheckoutContent />
+    </Suspense>
   );
 }
