@@ -15,7 +15,6 @@ export default function ProductButton({ item }) {
     setComponentLevelLoader,
     componentLevelLoader,
     user,
-    showCartModal,
     setShowCartModal,
   } = useContext(GlobalContext);
   const router = useRouter();
@@ -24,91 +23,69 @@ export default function ProductButton({ item }) {
 
   async function handleDeleteProduct(item) {
     setComponentLevelLoader({ loading: true, id: item._id });
-
     const res = await deleteAProduct(item._id);
 
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
-      toast.success(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.success(res.message);
       router.refresh();
     } else {
-      toast.error(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.error(res.message);
       setComponentLevelLoader({ loading: false, id: "" });
     }
   }
 
   async function handleAddToCart(getItem) {
     setComponentLevelLoader({ loading: true, id: getItem._id });
-
     const res = await addToCart({ productID: getItem._id, userID: user._id });
 
     if (res.success) {
-      toast.success(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      setComponentLevelLoader({ loading: false, id: "" });
+      toast.success(res.message);
       setShowCartModal(true);
     } else {
-      toast.error(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      setComponentLevelLoader({ loading: false, id: "" });
+      toast.error(res.message);
       setShowCartModal(true);
     }
-
-    console.log(res);
+    setComponentLevelLoader({ loading: false, id: "" });
   }
 
+  const isLoadingThis =
+    componentLevelLoader?.loading && componentLevelLoader?.id === item._id;
+
   return isAdminView ? (
-    <>
+    <div className="flex flex-col gap-1.5 mt-2">
       <button
         onClick={() => {
           setCurrentUpdatedProduct(item);
           router.push("/admin-view/add-product");
         }}
-        className="mt-1.5 flex w-full justify-center bg-[#A02F58] rounded-lg px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+        className="w-full flex justify-center items-center bg-brand text-white rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-wide hover:bg-brand-dark transition-colors duration-200"
       >
         Update
       </button>
       <button
         onClick={() => handleDeleteProduct(item)}
-        className="mt-1.5 flex w-full justify-center px-5 py-3 text-xs font-medium uppercase tracking-wide text-white  bg-[#A02F58] rounded-lg"
+        disabled={isLoadingThis}
+        className="w-full flex justify-center items-center bg-red-600 text-white rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-wide hover:bg-red-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {componentLevelLoader &&
-        componentLevelLoader.loading &&
-        item._id === componentLevelLoader.id ? (
-          <ComponentLevelLoader
-            text={"Deleting Product"}
-            color={"#ffffff"}
-            loading={componentLevelLoader && componentLevelLoader.loading}
-          />
+        {isLoadingThis ? (
+          <ComponentLevelLoader text="Deleting" color="#ffffff" loading={true} />
         ) : (
-          "DELETE"
+          "Delete"
         )}
       </button>
-    </>
+    </div>
   ) : (
-    <>
-      <button
-        onClick={() => handleAddToCart(item)}
-        className="mt-1.5 flex w-full justify-center bg-[#A02F58] rounded-lg px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-      >
-        {componentLevelLoader &&
-        componentLevelLoader.loading &&
-        componentLevelLoader.id === item._id ? (
-          <ComponentLevelLoader
-            text={"Adding to cart"}
-            color={"#ffffff"}
-            loading={componentLevelLoader && componentLevelLoader.loading}
-          />
-        ) : (
-          "Add To Cart"
-        )}
-      </button>
-    </>
+    <button
+      onClick={() => handleAddToCart(item)}
+      disabled={isLoadingThis}
+      className="mt-2 w-full flex justify-center items-center bg-brand text-white rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-wide hover:bg-brand-dark transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {isLoadingThis ? (
+        <ComponentLevelLoader text="Adding" color="#ffffff" loading={true} />
+      ) : (
+        "Add To Cart"
+      )}
+    </button>
   );
 }

@@ -7,242 +7,193 @@ import { useContext, useEffect, useState } from "react";
 import CarouselCustomNavigation from "@/components/Cslide";
 import CommonListing from "@/components/CommonListing";
 
+const CATEGORIES = [
+  {
+    label: "Electronic",
+    path: "/product/listing/kids",
+    image: "https://images.unsplash.com/photo-1592659762303-90081d34b277?q=80&w=774&auto=format&fit=crop",
+  },
+  {
+    label: "Sports",
+    path: "/product/listing/Sports",
+    image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=774&auto=format&fit=crop",
+  },
+  {
+    label: "Stationery",
+    path: "/product/listing/Stationery",
+    image: "https://plus.unsplash.com/premium_photo-1664105111034-33e24dc90a78?q=80&w=774&auto=format&fit=crop",
+  },
+  {
+    label: "Graduation",
+    path: "/product/listing/kids",
+    image: "https://plus.unsplash.com/premium_photo-1714265046086-4da004ff8a8d?q=80&w=774&auto=format&fit=crop",
+  },
+  {
+    label: "Merch",
+    path: "/product/listing/Merch",
+    image: "https://images.unsplash.com/photo-1619646149277-ef710ae426fd?q=80&w=774&auto=format&fit=crop",
+  },
+  {
+    label: "Lifestyle",
+    path: "/product/listing/kids",
+    image: "https://images.unsplash.com/photo-1501426026826-31c667bdf23d?q=80&w=774&auto=format&fit=crop",
+  },
+];
 
 export default function Home() {
   const { isAuthUser } = useContext(GlobalContext);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const allProducts = await getAllAdminProducts();
-        setProducts(allProducts);
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  async function getListOfProducts() {
-    const res = await getAllAdminProducts();
-
-    if (res.success) {
-      setProducts(res.data);
-    }
-  }
-
   useEffect(() => {
+    async function getListOfProducts() {
+      try {
+        const res = await getAllAdminProducts();
+        if (res.success) {
+          setProducts(res.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
     getListOfProducts();
   }, []);
 
-  console.log(products);
+  const saleProducts = products.filter((item) => item.onSale === "yes").slice(0, 2);
 
   return (
     <main className="bg-white">
-    <div className="flex flex-col items-center justify-between min-h-screen w-full">
-      <section className="w-full">
-        <CarouselCustomNavigation />
-        {/* category */}
-        <div className="w-full py-6 px-4 sm:py-8 sm:px-6 lg:py-10 lg:px-8">
-          <div className="text-center">
-          </div>
-          <ul className="grid grid-cols-2 gap-2 mt-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-3 md:gap-4 sm:mt-8">
-            <li>
-              <div className="relative block group">
-                <img
-                  src="https://images.unsplash.com/photo-1592659762303-90081d34b277?q=80&w=1973&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full rounded-lg aspect-square"
-                />
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-3 sm:p-4 lg:p-6">
-                  <h3 className="text-sm sm:text-base lg:text-lg font-medium text-white">Electronic</h3>
-                  <button
-                    onClick={() => router.push("/product/listing/kids")}
-                    className="inline-block bg-[#A02F58]/50 rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium uppercase tracking-wide text-white mt-1"
-                  >
-                    Shop Now
-                  </button>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="relative block group">
-                <img
-                  src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full rounded-lg aspect-square"
-                />
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-3 sm:p-4 lg:p-6">
-                  <h3 className="text-sm sm:text-base lg:text-lg font-medium text-white">Sports</h3>
-                  <button
-                    onClick={() => router.push("/product/listing/Sports")}
-                    className="inline-block bg-[#A02F58]/50 rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium uppercase tracking-wide text-white mt-1"
-                  >
-                    Shop Now
-                  </button>
-                </div>
-              </div>
-            </li>
+      <div className="flex flex-col items-center justify-between min-h-screen w-full">
+        <section className="w-full">
+          <CarouselCustomNavigation />
 
-            <li>
-              <div className="relative block group">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1664105111034-33e24dc90a78?q=80&w=1887&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full rounded-lg aspect-square"
-                />
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-3 sm:p-4 lg:p-6">
-                  <h3 className="text-sm sm:text-base lg:text-lg font-medium text-white">Stationery</h3>
+          {/* Categories */}
+          <div className="w-full py-6 px-4 sm:py-8 sm:px-6 lg:py-10 lg:px-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-heading mb-5">
+              Shop by Category
+            </h2>
+            <ul className="grid grid-cols-3 gap-2 sm:grid-cols-3 md:grid-cols-6 sm:gap-3">
+              {CATEGORIES.map((cat) => (
+                <li key={cat.label}>
                   <button
-                    onClick={() => router.push("/product/listing/Stationery")}
-                    className="inline-block bg-[#A02F58]/50 rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium uppercase tracking-wide text-white mt-1"
+                    onClick={() => router.push(cat.path)}
+                    className="relative block w-full group focus:outline-none focus:ring-2 focus:ring-brand rounded-xl"
+                    aria-label={`Shop ${cat.label}`}
                   >
-                    Shop Now
+                    <img
+                      src={cat.image}
+                      alt={cat.label}
+                      loading="lazy"
+                      className="object-cover w-full rounded-xl aspect-square"
+                    />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/60 to-transparent flex flex-col items-start justify-end p-2 sm:p-3">
+                      <h3 className="text-xs sm:text-sm font-semibold text-white leading-tight">
+                        {cat.label}
+                      </h3>
+                      <span className="mt-1 inline-block bg-brand/70 group-hover:bg-brand rounded-lg px-1.5 py-0.5 text-xs font-medium text-white transition-colors duration-150">
+                        Shop Now
+                      </span>
+                    </div>
                   </button>
-                </div>
-              </div>
-            </li>
-            
-            <li>
-              <div className="relative block group">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1714265046086-4da004ff8a8d?q=80&w=2070&auto=auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full rounded-lg aspect-square"
-                />
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-3 sm:p-4 lg:p-6">
-                  <h3 className="text-sm sm:text-base lg:text-lg font-medium text-white">Graduation</h3>
-                  <button
-                    onClick={() => router.push("/product/listing/kids")}
-                    className="inline-block bg-[#A02F58]/50 rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium uppercase tracking-wide text-white mt-1"
-                  >
-                    Shop Now
-                  </button>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="relative block group">
-                <img
-                  src="https://images.unsplash.com/photo-1619646149277-ef710ae426fd?q=80&w=2070&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full rounded-lg aspect-square"
-                />
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-3 sm:p-4 lg:p-6">
-                  <h3 className="text-sm sm:text-base lg:text-lg font-medium text-white">Merch</h3>
-                  <button
-                    onClick={() => router.push("/product/listing/Merch")}
-                    className="inline-block bg-[#A02F58]/50 rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium uppercase tracking-wide text-white mt-1"
-                  >
-                    Shop Now
-                  </button>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="relative block group">
-                <img
-                  src="https://images.unsplash.com/photo-1501426026826-31c667bdf23d?q=80&w=1936&auto=format&fit=crop&w=774&q=80"
-                  className="object-cover w-full rounded-lg aspect-square"
-                />
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-3 sm:p-4 lg:p-6">
-                  <h3 className="text-sm sm:text-base lg:text-lg font-medium text-white">Lifestyle</h3>
-                  <button
-                    onClick={() => router.push("/product/listing/kids")}
-                    className="inline-block bg-[#A02F58]/50 rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium uppercase tracking-wide text-white mt-1"
-                  >
-                    Shop Now
-                  </button>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        {/* banner */}
-        <div className="w-full py-6 px-4 sm:py-10 sm:px-6 lg:py-16 lg:px-8">
-          <div className="grid grid-cols-1 gap-4 lg:gap-8 lg:grid-cols-2">
-            <div className="flex flex-col justify-center">
-              <h1 className="mb-3 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#A02F58] font-extrabold tracking-tight leading-tight">
-                Tempat belanja Mahasiswa
-              </h1>
-              <p className="mb-4 text-xs sm:text-sm lg:text-base font-light text-gray-600">
-                Temukan barang yang anda butuhkan di sini dan dapatkan pengalaman
-                belanja mahasiswa terbaik.
-              </p>
-
-              <button
-                type="button"
-                onClick={() => router.push("/product/listing/all-products")}
-                className="mt-2 inline-block w-fit bg-[#A02F58] rounded-xl px-4 sm:px-5 py-2 sm:py-3 text-xs font-medium uppercase tracking-wide text-white hover:bg-[#8a234a] transition"
-              >
-                Belanja sekarang
-              </button>
-            </div>
-            <div className="items-center justify-center hidden lg:flex">
-              <img
-                src="https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c2hvcHBpbmd8ZW58MHx8MHx8fDA%3D"
-                alt="Explore Shop Collection"
-                className="w-full max-w-sm"
-              />
-            </div>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-        
-        <div className="w-full py-6 px-4 sm:py-8 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
-            <div className="bg-[#A02F58] rounded-lg p-4 sm:p-5 lg:p-6 flex flex-col justify-center">
-              <div className="text-center lg:text-left">
-                <h2 className="text-base sm:text-lg lg:text-2xl font-bold text-white">
-                  Diskonan Anak Kost-ann!!
-                </h2>
+
+          {/* Banner */}
+          <div className="w-full py-6 px-4 sm:py-10 sm:px-6 lg:py-14 lg:px-8">
+            <div className="grid grid-cols-1 gap-6 lg:gap-8 lg:grid-cols-2 items-center">
+              <div className="flex flex-col">
+                <h1 className="mb-3 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-brand font-extrabold tracking-tight leading-tight font-heading">
+                  Tempat belanja Mahasiswa
+                </h1>
+                <p className="mb-5 text-sm lg:text-base font-light text-gray-500 leading-relaxed max-w-md">
+                  Temukan barang yang anda butuhkan di sini dan dapatkan pengalaman
+                  belanja mahasiswa terbaik.
+                </p>
                 <button
+                  type="button"
                   onClick={() => router.push("/product/listing/all-products")}
-                  className="mt-3 inline-block bg-white rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 text-xs uppercase tracking-wide text-[#A02F58] hover:bg-[#EA3A7A] hover:text-white font-bold transition"
+                  className="inline-flex items-center gap-2 w-fit bg-brand rounded-xl px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white hover:bg-brand-dark transition-colors duration-200"
                 >
-                  Lihat Promo
+                  Belanja sekarang
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
                 </button>
               </div>
-            </div>
-            <div className="lg:col-span-2">
-              <ul className="grid grid-cols-2 gap-2 sm:gap-3">
-                {products && products.length
-                  ? products
-                      .filter((item) => item.onSale === "yes")
-                      .splice(0, 2)
-                      .map((productItem) => (
-                        <li
-                          onClick={() =>
-                            router.push(`/product/${productItem._id}`)
-                          }
-                          className="cursor-pointer"
-                          key={productItem._id}
-                        >
-                          <div>
-                            <img
-                              src={productItem.imageUrl}
-                              alt="Sale Product Item"
-                              className="object-cover w-full rounded-lg aspect-square"
-                            />
-                          </div>
-                          <div className="mt-2 sm:mt-3">
-                            <h3 className="font-medium text-gray-900 text-sm sm:text-base">
-                              {productItem.name}
-                            </h3>
-                            <p className="mt-1 text-xs sm:text-sm text-gray-800">
-                              Rp{productItem.price}{" "}
-                              <span className="text-red-700">{`(-${productItem.priceDrop}%) Off`}</span>
-                            </p>
-                          </div>
-                        </li>
-                      ))
-                  : null}
-              </ul>
+              <div className="hidden lg:flex items-center justify-center">
+                <img
+                  src="https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=600&auto=format&fit=crop&q=60"
+                  alt="Student shopping experience"
+                  loading="lazy"
+                  className="w-full max-w-sm rounded-2xl shadow-lg object-cover aspect-square"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-     
-    </div>
-    <CommonListing data={products} />
+
+          {/* Sale Section */}
+          <div className="w-full py-6 px-4 sm:py-8 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
+              <div className="bg-brand rounded-xl p-5 sm:p-6 flex flex-col justify-center">
+                <div className="text-center lg:text-left">
+                  <h2 className="text-lg sm:text-xl font-bold text-white font-heading">
+                    Diskonan Anak Kost-ann!!
+                  </h2>
+                  <p className="text-brand-50/80 text-sm mt-1 mb-4">Penawaran terbaik buat kamu!</p>
+                  <button
+                    onClick={() => router.push("/product/listing/all-products")}
+                    className="inline-block bg-white rounded-lg px-4 py-2 text-xs uppercase tracking-wide text-brand hover:bg-brand-50 font-bold transition-colors duration-150"
+                  >
+                    Lihat Promo
+                  </button>
+                </div>
+              </div>
+              <div className="lg:col-span-2">
+                {saleProducts.length > 0 ? (
+                  <ul className="grid grid-cols-2 gap-3">
+                    {saleProducts.map((productItem) => (
+                      <li
+                        onClick={() => router.push(`/product/${productItem._id}`)}
+                        className="cursor-pointer group"
+                        key={productItem._id}
+                      >
+                        <div className="rounded-xl overflow-hidden aspect-square bg-gray-50">
+                          <img
+                            src={productItem.imageUrl}
+                            alt={productItem.name}
+                            loading="lazy"
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <div className="mt-2">
+                          <h3 className="font-medium text-gray-900 text-sm line-clamp-1">
+                            {productItem.name}
+                          </h3>
+                          <p className="mt-0.5 text-xs text-gray-700">
+                            Rp {Number(productItem.price).toLocaleString("id-ID")}{" "}
+                            <span className="text-red-600 font-medium">{`(-${productItem.priceDrop}%) Off`}</span>
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="flex items-center justify-center h-full min-h-[120px] rounded-xl bg-gray-50 text-gray-400 text-sm">
+                    No sale items at the moment
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <CommonListing data={products} title="All Products" loading={loading} />
+      </div>
     </main>
   );
 }
